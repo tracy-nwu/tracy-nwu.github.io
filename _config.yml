@@ -7,7 +7,7 @@ title: 大橙子的博客
 ? subtitle
 ? description
 ? keywords
-author: fengxiang wang
+author: 花底相
 ? language
 ? timezone
 
@@ -80,4 +80,3 @@ theme: yilia
 deploy:
   type: git
   repo: "https://github.com/tracy-nwu/tracy-nwu.github.io.git"
-  branch: "github-page"
