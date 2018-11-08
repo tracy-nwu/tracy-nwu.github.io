@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018 | 大橙子的博客</title>
+  <title>从零开始搭建ReactApp | 大橙子的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="大橙子的博客">
-<meta property="og:url" content="http://yoursite.com/archives/2018/index.html">
+  <meta name="description" content="这篇文章可以：帮助初学者更好的理解 React 应用程序，当使用 create-creat-app 命令时，react 内部发生了什么帮助了解 React 应用中的 webpack、babel 等脚手架是如何发挥作用的，为什么要使用它们 Step 1：建立文件结构及初始化创建一个文件夹用以保存我们的项目，并用编辑器打开它 12mkdir createReactAppFromScracthcode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零开始搭建ReactApp">
+<meta property="og:url" content="http://yoursite.com/2018/08/01/frontend/create-react-app-from-scracth/index.html">
 <meta property="og:site_name" content="大橙子的博客">
+<meta property="og:description" content="这篇文章可以：帮助初学者更好的理解 React 应用程序，当使用 create-creat-app 命令时，react 内部发生了什么帮助了解 React 应用中的 webpack、babel 等脚手架是如何发挥作用的，为什么要使用它们 Step 1：建立文件结构及初始化创建一个文件夹用以保存我们的项目，并用编辑器打开它 12mkdir createReactAppFromScracthcode">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2018/png/160131/1541659827297-6e432b11-c7a7-40f0-b36a-fa1991cf985a.png">
+<meta property="og:updated_time" content="2018-11-08T14:37:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="大橙子的博客">
+<meta name="twitter:title" content="从零开始搭建ReactApp">
+<meta name="twitter:description" content="这篇文章可以：帮助初学者更好的理解 React 应用程序，当使用 create-creat-app 命令时，react 内部发生了什么帮助了解 React 应用中的 webpack、babel 等脚手架是如何发挥作用的，为什么要使用它们 Step 1：建立文件结构及初始化创建一个文件夹用以保存我们的项目，并用编辑器打开它 12mkdir createReactAppFromScracthcode">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2018/png/160131/1541659827297-6e432b11-c7a7-40f0-b36a-fa1991cf985a.png">
   
     <link rel="alternative" href="/atom.xml" title="大橙子的博客" type="application/atom+xml">
   
@@ -150,103 +156,201 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-frontend/create-react-app-from-scracth" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      从零开始搭建ReactApp
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/01/frontend/create-react-app-from-scracth/" class="archive-article-date">
+
+        
+        <a href="/2018/08/01/frontend/create-react-app-from-scracth/" class="archive-article-date">
   	<time datetime="2018-07-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/01/frontend/create-react-app-from-scracth/">从零开始搭建ReactApp</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这篇文章可以：<br>帮助初学者更好的理解 React 应用程序，当使用 create-creat-app 命令时，react 内部发生了什么<br>帮助了解 React 应用中的 webpack、babel 等脚手架是如何发挥作用的，为什么要使用它们</p>
+<h3 id="Step-1：建立文件结构及初始化"><a href="#Step-1：建立文件结构及初始化" class="headerlink" title="Step 1：建立文件结构及初始化"></a>Step 1：建立文件结构及初始化</h3><p>创建一个文件夹用以保存我们的项目，并用编辑器打开它</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir createReactAppFromScracth</span><br><span class="line">code createReactAppFromScracth</span><br></pre></td></tr></table></figure>
+<p>执行 npm init 用来初始化生成一个新的 package.json 文件。它会向用户提问一系列问题，如果你觉得不用修改默认配置，一路回车就可以了。或者直接执行 npm init -y 选择默认配置。<br>安装 react 和 react－dom，因为我们将要在代码中使用它。在命令行运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save react react-dom</span><br></pre></td></tr></table></figure>
+<p>创建以下文件结构：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+-- public</span><br><span class="line">+-- src</span><br></pre></td></tr></table></figure>
+<p>public 文件夹用来存放静态文件，最重要的是存放我们的 index.html 文件，该文件将用于呈现 React 应用程序。你可以将以下 HTML 代码复制到你的文件 index.html 中。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>React Starter<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"root"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">noscript</span>&gt;</span> You need to enable JavaScript to run this app. <span class="tag">&lt;/<span class="name">noscript</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../src/index.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>src 文件夹用来存放源文件，这里我们新建一个 App.js 和 index.js 文件。如果你之前接触过 react，应该对这部分非常熟悉。首先，我们在 App.j 简单写一个组件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;HELLO WORLD&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure>
+<p>接着在 index.js 中，引入它并挂载。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">"./App.js"</span>;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, document.getElementById("root"));</span></span><br></pre></td></tr></table></figure>
+<p>当最终构建好 ReactAPP 之后，会有部分我们不希望提交的代码（如 node_modules），所以我们需要继续在根目录添加.gitignore 文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node_module/</span><br><span class="line">.vscode</span><br><span class="line">dist/</span><br></pre></td></tr></table></figure>
+<p>做好上面的准备工作后，现在我们进入本文的重点部分。</p>
+<h3 id="Step-2：打开-index-html-文件"><a href="#Step-2：打开-index-html-文件" class="headerlink" title="Step 2：打开 index.html 文件"></a>Step 2：打开 index.html 文件</h3><p>这时，我们在浏览器中打开 index.html 文件，浏览器 console 口会报错<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1541659827297-6e432b11-c7a7-40f0-b36a-fa1991cf985a.png" alt=""><br>报错信息：在 index.js 文件的第一行，出现了浏览器不能识别的代码。说明浏览器不能解析 react，事实上它只能解析普通的 javascript 代码（ES5）。显然我们需要一个帮助我们把 react 里的 JSX 语言编译为普通 ES5 的工具，这就是 babel。<br>由于 babel 是集成在 webpack 中与 loader 配合使用的，所以现在我们先把目光转向 webpack。</p>
+<h3 id="Step-3：安装-webpack"><a href="#Step-3：安装-webpack" class="headerlink" title="Step 3：安装 webpack"></a>Step 3：安装 webpack</h3><p>webpack 本质上是一个静态模块打包器(module bundler)，它可以将 react 所有这些模块打包成一个或多个  bundle。详见<a href="https://www.webpackjs.com/" target="_blank" rel="noopener">https://www.webpackjs.com/</a><br>现在我们来安装 webpack，在命令行运行 npm install –save-dev webpack webpack-cli<br>–save-dev 表示保存为开发依赖，dev 即 devlepment，安装完成后，你会在 packge.json 文件中的 devDependencies 找到他们<br>在项目的根目录下创建一个名为 webpack.config.js 的新文件。在此文件中，我们会对 webpack 进行的一些配置，从而导出打包后的文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">entry: <span class="string">"./src/index.js"</span>,</span><br><span class="line">mode: <span class="string">"development"</span>,</span><br><span class="line">output: &#123;</span><br><span class="line">path: path.resolve(\_\_dirname, <span class="string">"dist/"</span>),</span><br><span class="line">publicPath: <span class="string">"/dist/"</span>,</span><br><span class="line">filename: <span class="string">"bundle.js"</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>entry 属性指明入口文件是./src/index.js，webpack 从这里开始构建依赖图，并捆绑我们的文件。<br>mode 属性指明我们正在开发模式下工作——这使我们不必在运行开发服务器时添加模式标志。<br>output 属性告诉 Webpack 将捆绑代码放在何处。<br>path 指明 bundle 所在目录的绝对路径，这里我们把它放在 dist 目录下<br>publicPath 属性指定 bundle 应该进入的目录，并告诉 webpack-dev-server 从哪里提供文件，从而帮助我们使用 dev-server。<br>同时，它指定在浏览器中所引用的「此输出目录对应的公开 URL」。 如果指定了一个错误的值，则在加载这些资源时会收到 404 错误，因为服务器将无法从正确的位置提供你的文件！<br>最后捆绑文件命名为 bundle.js<br>在 packge.json 文件的“scripts”中添加以下代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">"start": "webpack",</span><br><span class="line">   //...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在命令行运行 npm start，生成 dist 目录，我们会发现虽然 webpackge 虽然打包生成了 bundle.js 文件，但其中代码并没有被编译，浏览器依旧不能识别。这是因为我们还没有使用 babel。<br>将 index.html 中引入 javascript 的地址改为捆绑文件的地址</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"../dis/bundle.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Step-4：安装-babel"><a href="#Step-4：安装-babel" class="headerlink" title="Step 4：安装 babel"></a>Step 4：安装 babel</h3><p>安装 babel。在命令行运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev @babel/core @babel/cli  @babel/preset-env @babel/preset-react</span><br></pre></td></tr></table></figure>
+<p>babel-core 是主要的 babel 包，它让 babel 可以对我们的代码进行任意转换。<br>babel-cli 允许我们从命令行编译文件（cli 即 command line interface 的缩写）。<br>preset-react 和 preset-env 都是转换特定代码风格的预设——在这种情况下，env 预设允许我们将 ES6 +转换为更传统的 ES5，react 预设则是允许将 JSX 转换为 ES5。<br>在项目根目录中，创建一个名为.babelrc 的文件。在这里，我们告诉 babel 我们将使用 env 和 react 预设</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="string">"presets"</span>: [<span class="string">"@babel/env"</span>, <span class="string">"@babel/preset-react"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Step-5：webpack-配置-loder"><a href="#Step-5：webpack-配置-loder" class="headerlink" title="Step 5：webpack 配置-loder"></a>Step 5：webpack 配置-loder</h3><p>webpack 的 loader 用于对模块的源代码进行编译。 可以使你在  import  或”加载”模块时预处理文件。<br>在 webpack.config.js 文件的 module.exports 中加入以下代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.(js|jsx)\$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/(node_modules|bower_components)/</span>,</span><br><span class="line">        loader: <span class="string">"babel-loader"</span>,</span><br><span class="line">        options: &#123; <span class="attr">presets</span>: [<span class="string">"@babel/env"</span>] &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: &#123; <span class="attr">extensions</span>: [<span class="string">"*"</span>, <span class="string">".js"</span>, <span class="string">".jsx"</span>] &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>module 对象中的 rules 数组，定义了导出的 javascript 模块的编译方式以及编译哪些模块。<br>这里 rules 数组仅有一条规则，用来改变 ES6 和 JSX 语法。<br>test 和 exclude 属性是匹配文件类型的条件。这里它将匹配 node_modules 和 bower_components 目录之外的任何内容。<br>loader 属性指定 babel-loader 来处理匹配到的文件。<br>最后，在 options 属性中指定使用 env 预设。（options 的值可以传递到 loader 中，我们可以将其理解为 loader 的一个选项。）<br>resolve 属性指定 Webpack 将解析哪些扩展——这允许我们引入模块而无需添加其扩展名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> File <span class="keyword">from</span> <span class="string">"../path/to/file"</span>;</span><br></pre></td></tr></table></figure>
+<p>此时在浏览器中打开 index.html 文件，就可以看到我们写的 HELLO WORLD 了。</p>
+<h3 id="Step-6：webpack-配置-devServer"><a href="#Step-6：webpack-配置-devServer" class="headerlink" title="Step 6：webpack 配置-devServer"></a>Step 6：webpack 配置-devServer</h3><p>我们希望通过 npm start 可以直接生成一个端口来查看项目，而不是之前在浏览器中打开 HTML 文件的方法。所以我们需要新建一个服务器。<br>安装 webpack-dev-server。在命令行执行 npm i webpack-dev-server –save-dev<br>在 webpack.config.js 文件中加入以下代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line"> <span class="comment">//...</span></span><br><span class="line">devServer: &#123;</span><br><span class="line">contentBase: path.join(\_\_dirname, <span class="string">"public/"</span>),</span><br><span class="line">port: <span class="number">3000</span>,</span><br><span class="line">publicPath: <span class="string">"http://localhost:3000/dist/"</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>我们在 devServer 属性中设置了 webpack-dev-server。<br>contentBase 属性中我们提供静态文件的位置（例如我们的 index.html）<br>我们想要运行服务器的端口。 请注意，devServer 还具有 publicPath 属性。<br>此 publicPath 告诉服务器我们的捆绑代码实际上在哪里。<br>最后一点可能有点令人困惑 - 请注意这里：output.publicPath 和 devServer.publicPath 是不同的。<br>在 packge.json 文件的 scripts 中加入以下代码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"dev": "webpack-dev-server"</span><br></pre></td></tr></table></figure>
+<p>在命令行执行 npm run dev，点击生成的链接<a href="http://localhost:3000/，就可以看到我们写的HELLO" target="_blank" rel="noopener">http://localhost:3000/，就可以看到我们写的HELLO</a> WORLD 了。</p>
+<h3 id="Step-7：webpack-配置-热模块加载"><a href="#Step-7：webpack-配置-热模块加载" class="headerlink" title="Step 7：webpack 配置-热模块加载"></a>Step 7：webpack 配置-热模块加载</h3><p>现在我们改动 App.js 文件中“HELLO WORLD”为“HELLO REACT”，浏览器中的网页内容并没有自动更新，需要我们手动刷新网页才可以。<br>Hot Module Replacement（热模块替换）可以自动刷新我们在文件中的更改。这就涉及到 webpack 插件的用法。<br>首先安装 react-hot-loader。<br>其次，我们对配置文件所做的就是在 plugins 属性中实例化插件的新实例，并确保在 devServer 中将 hotOnly 设置为 true。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">"webpack"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">devServer: &#123;</span><br><span class="line">contentBase: path.join(\_\_dirname, <span class="string">"public/"</span>),</span><br><span class="line">port: <span class="number">3000</span>,</span><br><span class="line">publicPath: <span class="string">"http://localhost:3000/dist/"</span>,</span><br><span class="line">hotOnly: <span class="literal">true</span></span><br><span class="line">&#125;,</span><br><span class="line">plugins: [<span class="keyword">new</span> webpack.HotModuleReplacementPlugin()]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在 App.js 中导入 react-hot-loader，并通过修改代码将导出的对象标记为 hot-reloaded，如下所示。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component&#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;hot&#125; <span class="keyword">from</span> <span class="string">"react-hot-loader"</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">render()&#123;</span><br><span class="line"><span class="keyword">return</span>(</span><br><span class="line"></span><br><span class="line">&lt;div&gt;</span><br><span class="line">&lt;h1&gt;HELLO WORLD&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>div&gt;</span><br><span class="line">);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> hot(<span class="built_in">module</span>)(App);</span><br></pre></td></tr></table></figure>
+<h3 id="Finally"><a href="#Finally" class="headerlink" title="Finally"></a>Finally</h3><p>最终的配置文件长这样：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">"webpack"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: <span class="string">"./src/index.js"</span>,</span><br><span class="line">    mode: <span class="string">"development"</span>,</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">    &#123;</span><br><span class="line">        test: <span class="regexp">/\.(js|jsx)\$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/(node_modules|bower_components)/</span>,</span><br><span class="line">        loader: <span class="string">"babel-loader"</span>,</span><br><span class="line">        options: &#123; <span class="attr">presets</span>: [<span class="string">"@babel/env"</span>] &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    resolve: &#123; <span class="attr">extensions</span>: [<span class="string">"*"</span>, <span class="string">".js"</span>, <span class="string">".jsx"</span>] &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">    path: path.resolve(**dirname, <span class="string">"dist/"</span>),</span><br><span class="line">    publicPath: <span class="string">"/dist/"</span>,</span><br><span class="line">    filename: <span class="string">"bundle.js"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    devServer: &#123;</span><br><span class="line">    contentBase: path.join(**dirname, <span class="string">"public/"</span>),</span><br><span class="line">    port: <span class="number">3000</span>,</span><br><span class="line">    publicPath: <span class="string">"http://localhost:3000/dist/"</span>,</span><br><span class="line">    hotOnly: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [<span class="keyword">new</span> webpack.HotModuleReplacementPlugin()]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>最终的文件结构长这样：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">+-- public</span><br><span class="line">| +-- index.html</span><br><span class="line">+-- src</span><br><span class="line">| +-- App.js</span><br><span class="line">| +-- index.js</span><br><span class="line">+-- .babelrc</span><br><span class="line">+-- .gitignore</span><br><span class="line">+-- package-lock.json</span><br><span class="line">+-- package.json</span><br><span class="line">+-- webpack.config.js</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>你会发现，我们创建一个 react 项目，其核心是 webpack。它以 index.js 为入口，开始构建其内部依赖图，对它们进行编译，打包成为一个文件输出，与 devServer 合作提供给 react 一个运行端口，然后加入一个插件，使它实现自动更新。<br>当你了解这些以后，再去看其他框架就会有更深入的理解。</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/08/01/frontend/create-react-app-from-scracth/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/25/shenzhen/" class="archive-article-date">
-  	<time datetime="2018-03-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-25</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/25/shenzhen/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">深圳最老景区的前世今生</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/25/shenzhen/">深圳最老景区的前世今生</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/01/frontend/NO8.html/" class="archive-article-date">
-  	<time datetime="2018-02-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/01/frontend/NO8.html/">NO.8 回顾梳理 HTML</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -269,8 +373,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
