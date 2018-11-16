@@ -152,6 +152,82 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-frontend/creat-ajax-demo" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/05/frontend/creat-ajax-demo/">创建一个ajax应用程序</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/05/frontend/creat-ajax-demo/" class="archive-article-date">
+  	<time datetime="2018-09-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于这篇文章：<br>MDN 上介绍 ajax 的文章<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start</a><br>该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。</p>
+<h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><p>AJAX 是异步的 JavaScript 和 XML（Asynchronous JavaScript And XML）。AJAX 最大的优点是在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页内容。<br>XMLHttpRequest（即 XHR）对象是 ajax 的核心，简而言之，其实 ajax 就是使用 XMLHttpRequest 对象的方法和属性实现与服务器通信的。</p>
+<h3 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h3><p>建立 ajax－demo 文件夹，并在其中建立 index.html 文件，在<body>写入以下内容</body></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"ajaxButton"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>Make a request<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  (function() &#123;</span></span><br><span class="line"><span class="undefined">    var httpRequest;</span></span><br><span class="line"><span class="undefined">    document</span></span><br><span class="line"><span class="undefined">      .getElementById("ajaxButton")</span></span><br><span class="line"><span class="undefined">      .addEventListener("click", makeRequest);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    function makeRequest() &#123;</span></span><br><span class="line"><span class="undefined">      httpRequest = new XMLHttpRequest();</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">      if (!httpRequest) &#123;</span></span><br><span class="line"><span class="undefined">        alert("Giving up :( Cannot create an XMLHTTP instance");</span></span><br><span class="line"><span class="undefined">        return false;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      httpRequest.onreadystatechange = alertContents;</span></span><br><span class="line"><span class="undefined">      httpRequest.open("GET", "test.html");</span></span><br><span class="line"><span class="undefined">      httpRequest.send();</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    function alertContents() &#123;</span></span><br><span class="line"><span class="undefined">      if (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</span></span><br><span class="line"><span class="undefined">        if (httpRequest.status === 200) &#123;</span></span><br><span class="line"><span class="undefined">          alert(httpRequest.responseText);</span></span><br><span class="line"><span class="undefined">        &#125; else &#123;</span></span><br><span class="line"><span class="undefined">          alert("There was a problem with the request.");</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;)();</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h3 id="问题一："><a href="#问题一：" class="headerlink" title="问题一："></a>问题一：</h3><p>在浏览器中打开 index.html 时，总是弹出“There was a problem with the request.”<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1542366348472-a2c0ceda-db61-4544-9c7b-c485c144a006.png" alt=""><br>原因是访问 test.html 的路径被阻断了，让我们定位到相关代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.open(<span class="string">"GET"</span>, <span class="string">"test.html"</span>);</span><br></pre></td></tr></table></figure>
+<p>httpRequest 是 XMLHttpRequest 对象的实例，继承了它的方法和属性，这里的 open()便是其中之一。<br>open()  接受三个参数，第一个是 HTTP 请求方法 - 通常有 GET，POST，HEAD。  第二个参数你要取得的内容的地址，改地址是相对于执行代码的当前页面的（当然也可以是绝对路径），通常是一段 URL，如 http://服务器地址/test。第三个参数是表示是否异步加载的布尔值，默认为true，可省略。<br>这里第二个参数直接写为 test.html，表明是这是一段本地路径。所以我们需要起一个本地的 server 服务，解决方法就是利用 vscode 中的 Live Server 插件。安装 Live Server。<br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367100098-9fd952de-a310-4a18-80fa-cce48b43f504.png" alt=""><br><br><br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367113922-fc2a2122-b487-4946-bdad-ad3ae5fdcbaf.png" alt=""><br><br><br>使用 Live Server 打开 index.html，依然弹出“There was a problem with the request.”查看 console 口<br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367364564-a1183f08-86fd-46ba-9f04-53f314932748.png" alt=""><br>浏览器提示，找不到相关文件，那么我们就建立 test.html 文件，随意写上你喜欢的一个句子，这里我们写“This is a test”</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This is a <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<p>再次打开，就会弹出我们想要的内容了。</p>
+<h3 id="问题二："><a href="#问题二：" class="headerlink" title="问题二："></a>问题二：</h3><p>为什么整段 ajax 代码要包含在一个立即执行的匿名函数中？<br>因为变量 httpRequest 是要在 ajax 的全局范围内使用的，它会在 makeRequest() 函数中被相互覆盖，从而导致资源竞争。为了避免这个情况，所以在包含 AJAX 函数的闭包中声明 httpRequest 变量。</p>
+<h3 id="ajax-运行过程小结："><a href="#ajax-运行过程小结：" class="headerlink" title="ajax 运行过程小结："></a>ajax 运行过程小结：</h3><p>1.发送请求，收到响应。<br>1.1 告诉请求对象是由哪一个 JavaScript 函数处理响应</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.onreadystatechange = nameOfTheFunction;</span><br></pre></td></tr></table></figure>
+<p>1.2 发送一个实际的请求，通过调用 HTTP 请求对象的 open() 和 send() 方法<br>2 处理服务器响应<br>2.1 函数要检查请求的状态。状态值是否是 XMLHttpRequest.DONE<br>2.2 检查响应码 200 OK<br>2.3 具体设置处理响应的函数</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/05/frontend/creat-ajax-demo/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-frontend/create-react-app-from-scracth" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
