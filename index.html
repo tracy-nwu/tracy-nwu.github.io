@@ -152,19 +152,99 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-frontend/creat-ajax-demo" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+    <article id="post-frontend/setState" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/05/frontend/creat-ajax-demo/">创建一个ajax应用程序</a>
+      <a class="article-title" href="/2018/09/15/frontend/setState/">理解setState()</a>
     </h1>
   
 
         
-        <a href="/2018/09/05/frontend/creat-ajax-demo/" class="archive-article-date">
+        <a href="/2018/09/15/frontend/setState/" class="archive-article-date">
+  	<time datetime="2018-09-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="state"><a href="#state" class="headerlink" title="state"></a>state</h3><p>一个组件的显示形态是可以由它数据状态和配置参数决定的。一个组件可以拥有自己的状态，就像一个点赞按钮，可以有“已点赞”和“未点赞”状态，并且可以在这两种状态之间进行切换。React.js 的  state 就是用来存储这种可变化的状态的。</p>
+<p>那么 state 是如何改变的呢？显然直接赋值是不行的，this.state.name = ‘tracy’？React 并不会根据此代码来重新渲染组件，正确的操作是使用 setState() 。</p>
+<h3 id="setState"><a href="#setState" class="headerlink" title="setState()"></a>setState()</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setState(updater, callback)</span><br></pre></td></tr></table></figure>
+<p>如上，setState()接受两个参数，一个是用于改变组件状态的 updater，另一个是当 setState()异步执行完毕后，调用的回调函数，用它可以进行任何的后期操作。</p>
+<h3 id="第一个参数"><a href="#第一个参数" class="headerlink" title="第一个参数"></a>第一个参数</h3><p>我们先来看 setState()的第一个参数，它既可以是一个对象，也可以是一个函数。当它是一个对象时，表示下一个 state 的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//this.state=&#123;name:"Lili"&#125;</span></span><br><span class="line">handleClickOnChangeNameButton()&#123;</span><br><span class="line">   <span class="keyword">this</span>.setState(&#123;<span class="attr">name</span>:<span class="string">"Tracy"</span>&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样操作起来非常直观，我们改变下一个 state 的值，将它的 name 由“Lili”改为“Tracy”，既然用对象就可以解决，那么为什么还需要函数呢？别急，让我们继续来探索。</p>
+<p>你也许听过，setState()是一种异步的行为。这意味着当你调用  setState  的时候，React.js 并不会马上修改 state。而是把这个对象放到一个更新队列里面，稍后才会从队列当中把新的状态提取出来合并到  state  当中，然后再触发组件更新。让我们来做一个简单的实验</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//this.state = &#123;name:"Lili"&#125;;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.state.name);   <span class="comment">// "Lili"</span></span><br><span class="line">handleClickOnChangeNameButton()&#123;</span><br><span class="line">   <span class="keyword">this</span>.setState(&#123;<span class="attr">name</span>:<span class="string">"Tracy"</span>&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.state.name);   <span class="comment">// "Lili"</span></span><br></pre></td></tr></table></figure>
+<p>你会发现两次打印的结果都是“Lili”，这里 React.js 的  setState  把你的传进来的状态缓存起来，稍后才会帮你更新到  state  上，所以你获取到的还是原来的  name.<br>所以如果你想在  setState  之后使用新的  state  来做后续运算就做不到了，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">handleClickButton ()&#123;</span><br><span class="line">   <span class="keyword">this</span>.setState(&#123; <span class="attr">count</span>: <span class="number">0</span> &#125;) <span class="comment">// =&gt; this.state.count 还是 undefined</span></span><br><span class="line">   <span class="keyword">this</span>.setState(&#123; <span class="attr">count</span>: <span class="keyword">this</span>.state.count + <span class="number">1</span>&#125;) <span class="comment">// =&gt; undefined + 1 = NaN</span></span><br><span class="line">   <span class="keyword">this</span>.setState(&#123; <span class="attr">count</span>: <span class="keyword">this</span>.state.count + <span class="number">2</span>&#125;) <span class="comment">// =&gt; NaN + 2 = NaN</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码的运行结果并不能达到我们的预期，我们希望  count  运行结果是  3 ，可是最后得到的是  NaN。但是这种后续操作依赖前一个  setState  的结果的情况并不罕见。</p>
+<p>这里就自然地引出了  setState  的第二种使用方式，可以接受一个函数作为参数。React.js 会把上一个  setState 的结果传入这个函数，你就可以使用该结果进行运算、操作，然后返回一个对象作为更新  state  的对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">  handleClickButton () &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123; <span class="attr">count</span>: <span class="number">0</span> &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123; <span class="attr">count</span>: prevState.count + <span class="number">1</span> &#125; <span class="comment">// 上一个 setState 的返回是 count 为 0，当前返回 1</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123; <span class="attr">count</span>: prevState.count + <span class="number">2</span> &#125; <span class="comment">// 上一个 setState 的返回是 count 为 1，当前返回 3</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 最后的结果是 this.state.count 为 3</span></span><br><span class="line">  &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>setState 合并<br>上面我们进行了三次  setState，但是实际上组件只会重新渲染一次，而不是三次；这是因为在 React.js 内部会把 JavaScript 事件循环中的消息队列的同一个消息中的  setState  都进行合并以后再重新渲染组件。</p>
+<h3 id="第二个参数"><a href="#第二个参数" class="headerlink" title="第二个参数"></a>第二个参数</h3><p>setState()的第二个参数是一个回调函数，它会在 setState()完成，并且组件被渲染完毕时被调用，类似于 componentDidUpdate。<br>由于 setState 是异步的，因此回调函数用于任何后期操作，比如，获取更新后的 state 值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.state = &#123;<span class="attr">foo</span>: <span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">this</span>.setState(&#123;<span class="attr">foo</span>: <span class="number">123</span>&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.state.foo);</span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.state = &#123;<span class="attr">foo</span>: <span class="number">2</span>&#125;;</span><br><span class="line"><span class="keyword">this</span>.setState(&#123;<span class="attr">foo</span>: <span class="number">123</span>&#125;, ()=&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(foo);</span><br><span class="line">    <span class="comment">// 123</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>关于 setState 中回调函数的更多用法，可以参考：<br><a href="https://medium.com/@voonminghann/when-to-use-callback-function-of-setstate-in-react-37fff67e5a6c" target="_blank" rel="noopener">https://medium.com/@voonminghann/when-to-use-callback-function-of-setstate-in-react-37fff67e5a6c</a><br><a href="https://segmentfault.com/a/1190000008051628" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008051628</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/15/frontend/setState/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-frontend/create-ajax-demo" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/05/frontend/create-ajax-demo/">创建一个ajax应用程序</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/05/frontend/create-ajax-demo/" class="archive-article-date">
   	<time datetime="2018-09-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-05</time>
 </a>
         
@@ -198,7 +278,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/05/frontend/creat-ajax-demo/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/09/05/frontend/create-ajax-demo/">展开全文 >></a>
         </p>
       
 
@@ -528,7 +608,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 花底相
+    		&copy; 2019 花底相
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

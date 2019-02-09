@@ -6,24 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>创建一个ajax应用程序 | 大橙子的博客</title>
+  <title>理解setState() | 大橙子的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关于这篇文章：MDN 上介绍 ajax 的文章https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。 概念：AJAX 是异步的 JavaScript 和">
+  <meta name="description" content="state一个组件的显示形态是可以由它数据状态和配置参数决定的。一个组件可以拥有自己的状态，就像一个点赞按钮，可以有“已点赞”和“未点赞”状态，并且可以在这两种状态之间进行切换。React.js 的  state 就是用来存储这种可变化的状态的。 那么 state 是如何改变的呢？显然直接赋值是不行的，this.state.name = ‘tracy’？React 并不会根据此代码来重新渲染组件，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="创建一个ajax应用程序">
-<meta property="og:url" content="http://yoursite.com/2018/09/05/frontend/creat-ajax-demo/index.html">
+<meta property="og:title" content="理解setState()">
+<meta property="og:url" content="http://yoursite.com/2018/09/15/frontend/setState/index.html">
 <meta property="og:site_name" content="大橙子的博客">
-<meta property="og:description" content="关于这篇文章：MDN 上介绍 ajax 的文章https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。 概念：AJAX 是异步的 JavaScript 和">
+<meta property="og:description" content="state一个组件的显示形态是可以由它数据状态和配置参数决定的。一个组件可以拥有自己的状态，就像一个点赞按钮，可以有“已点赞”和“未点赞”状态，并且可以在这两种状态之间进行切换。React.js 的  state 就是用来存储这种可变化的状态的。 那么 state 是如何改变的呢？显然直接赋值是不行的，this.state.name = ‘tracy’？React 并不会根据此代码来重新渲染组件，">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2018/png/160131/1542366348472-a2c0ceda-db61-4544-9c7b-c485c144a006.png">
-<meta property="og:image" content="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367100098-9fd952de-a310-4a18-80fa-cce48b43f504.png">
-<meta property="og:image" content="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367113922-fc2a2122-b487-4946-bdad-ad3ae5fdcbaf.png">
-<meta property="og:image" content="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367364564-a1183f08-86fd-46ba-9f04-53f314932748.png">
-<meta property="og:updated_time" content="2018-11-16T12:54:43.000Z">
+<meta property="og:updated_time" content="2019-02-09T03:18:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="创建一个ajax应用程序">
-<meta name="twitter:description" content="关于这篇文章：MDN 上介绍 ajax 的文章https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。 概念：AJAX 是异步的 JavaScript 和">
-<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2018/png/160131/1542366348472-a2c0ceda-db61-4544-9c7b-c485c144a006.png">
+<meta name="twitter:title" content="理解setState()">
+<meta name="twitter:description" content="state一个组件的显示形态是可以由它数据状态和配置参数决定的。一个组件可以拥有自己的状态，就像一个点赞按钮，可以有“已点赞”和“未点赞”状态，并且可以在这两种状态之间进行切换。React.js 的  state 就是用来存储这种可变化的状态的。 那么 state 是如何改变的呢？显然直接赋值是不行的，this.state.name = ‘tracy’？React 并不会根据此代码来重新渲染组件，">
   
     <link rel="alternative" href="/atom.xml" title="大橙子的博客" type="application/atom+xml">
   
@@ -159,40 +154,44 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-frontend/creat-ajax-demo" class="article article-type-post " itemscope="" itemprop="blogPost">
+            <article id="post-frontend/setState" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      创建一个ajax应用程序
+      理解setState()
     </h1>
   
 
         
-        <a href="/2018/09/05/frontend/creat-ajax-demo/" class="archive-article-date">
-  	<time datetime="2018-09-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-05</time>
+        <a href="/2018/09/15/frontend/setState/" class="archive-article-date">
+  	<time datetime="2018-09-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-15</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>关于这篇文章：<br>MDN 上介绍 ajax 的文章<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start</a><br>该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。</p>
-<h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><p>AJAX 是异步的 JavaScript 和 XML（Asynchronous JavaScript And XML）。AJAX 最大的优点是在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页内容。<br>XMLHttpRequest（即 XHR）对象是 ajax 的核心，简而言之，其实 ajax 就是使用 XMLHttpRequest 对象的方法和属性实现与服务器通信的。</p>
-<h3 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h3><p>建立 ajax－demo 文件夹，并在其中建立 index.html 文件，在<body>写入以下内容</body></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"ajaxButton"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>Make a request<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  (function() &#123;</span></span><br><span class="line"><span class="undefined">    var httpRequest;</span></span><br><span class="line"><span class="undefined">    document</span></span><br><span class="line"><span class="undefined">      .getElementById("ajaxButton")</span></span><br><span class="line"><span class="undefined">      .addEventListener("click", makeRequest);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    function makeRequest() &#123;</span></span><br><span class="line"><span class="undefined">      httpRequest = new XMLHttpRequest();</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">      if (!httpRequest) &#123;</span></span><br><span class="line"><span class="undefined">        alert("Giving up :( Cannot create an XMLHTTP instance");</span></span><br><span class="line"><span class="undefined">        return false;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      httpRequest.onreadystatechange = alertContents;</span></span><br><span class="line"><span class="undefined">      httpRequest.open("GET", "test.html");</span></span><br><span class="line"><span class="undefined">      httpRequest.send();</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    function alertContents() &#123;</span></span><br><span class="line"><span class="undefined">      if (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</span></span><br><span class="line"><span class="undefined">        if (httpRequest.status === 200) &#123;</span></span><br><span class="line"><span class="undefined">          alert(httpRequest.responseText);</span></span><br><span class="line"><span class="undefined">        &#125; else &#123;</span></span><br><span class="line"><span class="undefined">          alert("There was a problem with the request.");</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;)();</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><br></p>
-<h3 id="问题一："><a href="#问题一：" class="headerlink" title="问题一："></a>问题一：</h3><p>在浏览器中打开 index.html 时，总是弹出“There was a problem with the request.”<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1542366348472-a2c0ceda-db61-4544-9c7b-c485c144a006.png" alt=""><br>原因是访问 test.html 的路径被阻断了，让我们定位到相关代码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.open(<span class="string">"GET"</span>, <span class="string">"test.html"</span>);</span><br></pre></td></tr></table></figure>
-<p>httpRequest 是 XMLHttpRequest 对象的实例，继承了它的方法和属性，这里的 open()便是其中之一。<br>open()  接受三个参数，第一个是 HTTP 请求方法 - 通常有 GET，POST，HEAD。  第二个参数你要取得的内容的地址，改地址是相对于执行代码的当前页面的（当然也可以是绝对路径），通常是一段 URL，如 http://服务器地址/test。第三个参数是表示是否异步加载的布尔值，默认为true，可省略。<br>这里第二个参数直接写为 test.html，表明是这是一段本地路径。所以我们需要起一个本地的 server 服务，解决方法就是利用 vscode 中的 Live Server 插件。安装 Live Server。<br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367100098-9fd952de-a310-4a18-80fa-cce48b43f504.png" alt=""><br><br><br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367113922-fc2a2122-b487-4946-bdad-ad3ae5fdcbaf.png" alt=""><br><br><br>使用 Live Server 打开 index.html，依然弹出“There was a problem with the request.”查看 console 口<br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367364564-a1183f08-86fd-46ba-9f04-53f314932748.png" alt=""><br>浏览器提示，找不到相关文件，那么我们就建立 test.html 文件，随意写上你喜欢的一个句子，这里我们写“This is a test”</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This is a <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
-<p>再次打开，就会弹出我们想要的内容了。</p>
-<h3 id="问题二："><a href="#问题二：" class="headerlink" title="问题二："></a>问题二：</h3><p>为什么整段 ajax 代码要包含在一个立即执行的匿名函数中？<br>因为变量 httpRequest 是要在 ajax 的全局范围内使用的，它会在 makeRequest() 函数中被相互覆盖，从而导致资源竞争。为了避免这个情况，所以在包含 AJAX 函数的闭包中声明 httpRequest 变量。</p>
-<h3 id="ajax-运行过程小结："><a href="#ajax-运行过程小结：" class="headerlink" title="ajax 运行过程小结："></a>ajax 运行过程小结：</h3><p>1.发送请求，收到响应。<br>1.1 告诉请求对象是由哪一个 JavaScript 函数处理响应</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.onreadystatechange = nameOfTheFunction;</span><br></pre></td></tr></table></figure>
-<p>1.2 发送一个实际的请求，通过调用 HTTP 请求对象的 open() 和 send() 方法<br>2 处理服务器响应<br>2.1 函数要检查请求的状态。状态值是否是 XMLHttpRequest.DONE<br>2.2 检查响应码 200 OK<br>2.3 具体设置处理响应的函数</p>
+        <h3 id="state"><a href="#state" class="headerlink" title="state"></a>state</h3><p>一个组件的显示形态是可以由它数据状态和配置参数决定的。一个组件可以拥有自己的状态，就像一个点赞按钮，可以有“已点赞”和“未点赞”状态，并且可以在这两种状态之间进行切换。React.js 的  state 就是用来存储这种可变化的状态的。</p>
+<p>那么 state 是如何改变的呢？显然直接赋值是不行的，this.state.name = ‘tracy’？React 并不会根据此代码来重新渲染组件，正确的操作是使用 setState() 。</p>
+<h3 id="setState"><a href="#setState" class="headerlink" title="setState()"></a>setState()</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setState(updater, callback)</span><br></pre></td></tr></table></figure>
+<p>如上，setState()接受两个参数，一个是用于改变组件状态的 updater，另一个是当 setState()异步执行完毕后，调用的回调函数，用它可以进行任何的后期操作。</p>
+<h3 id="第一个参数"><a href="#第一个参数" class="headerlink" title="第一个参数"></a>第一个参数</h3><p>我们先来看 setState()的第一个参数，它既可以是一个对象，也可以是一个函数。当它是一个对象时，表示下一个 state 的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//this.state=&#123;name:"Lili"&#125;</span></span><br><span class="line">handleClickOnChangeNameButton()&#123;</span><br><span class="line">   <span class="keyword">this</span>.setState(&#123;<span class="attr">name</span>:<span class="string">"Tracy"</span>&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样操作起来非常直观，我们改变下一个 state 的值，将它的 name 由“Lili”改为“Tracy”，既然用对象就可以解决，那么为什么还需要函数呢？别急，让我们继续来探索。</p>
+<p>你也许听过，setState()是一种异步的行为。这意味着当你调用  setState  的时候，React.js 并不会马上修改 state。而是把这个对象放到一个更新队列里面，稍后才会从队列当中把新的状态提取出来合并到  state  当中，然后再触发组件更新。让我们来做一个简单的实验</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//this.state = &#123;name:"Lili"&#125;;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.state.name);   <span class="comment">// "Lili"</span></span><br><span class="line">handleClickOnChangeNameButton()&#123;</span><br><span class="line">   <span class="keyword">this</span>.setState(&#123;<span class="attr">name</span>:<span class="string">"Tracy"</span>&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.state.name);   <span class="comment">// "Lili"</span></span><br></pre></td></tr></table></figure>
+<p>你会发现两次打印的结果都是“Lili”，这里 React.js 的  setState  把你的传进来的状态缓存起来，稍后才会帮你更新到  state  上，所以你获取到的还是原来的  name.<br>所以如果你想在  setState  之后使用新的  state  来做后续运算就做不到了，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">handleClickButton ()&#123;</span><br><span class="line">   <span class="keyword">this</span>.setState(&#123; <span class="attr">count</span>: <span class="number">0</span> &#125;) <span class="comment">// =&gt; this.state.count 还是 undefined</span></span><br><span class="line">   <span class="keyword">this</span>.setState(&#123; <span class="attr">count</span>: <span class="keyword">this</span>.state.count + <span class="number">1</span>&#125;) <span class="comment">// =&gt; undefined + 1 = NaN</span></span><br><span class="line">   <span class="keyword">this</span>.setState(&#123; <span class="attr">count</span>: <span class="keyword">this</span>.state.count + <span class="number">2</span>&#125;) <span class="comment">// =&gt; NaN + 2 = NaN</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码的运行结果并不能达到我们的预期，我们希望  count  运行结果是  3 ，可是最后得到的是  NaN。但是这种后续操作依赖前一个  setState  的结果的情况并不罕见。</p>
+<p>这里就自然地引出了  setState  的第二种使用方式，可以接受一个函数作为参数。React.js 会把上一个  setState 的结果传入这个函数，你就可以使用该结果进行运算、操作，然后返回一个对象作为更新  state  的对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">  handleClickButton () &#123;</span><br><span class="line">    <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123; <span class="attr">count</span>: <span class="number">0</span> &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123; <span class="attr">count</span>: prevState.count + <span class="number">1</span> &#125; <span class="comment">// 上一个 setState 的返回是 count 为 0，当前返回 1</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">this</span>.setState(<span class="function">(<span class="params">prevState</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> &#123; <span class="attr">count</span>: prevState.count + <span class="number">2</span> &#125; <span class="comment">// 上一个 setState 的返回是 count 为 1，当前返回 3</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 最后的结果是 this.state.count 为 3</span></span><br><span class="line">  &#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>setState 合并<br>上面我们进行了三次  setState，但是实际上组件只会重新渲染一次，而不是三次；这是因为在 React.js 内部会把 JavaScript 事件循环中的消息队列的同一个消息中的  setState  都进行合并以后再重新渲染组件。</p>
+<h3 id="第二个参数"><a href="#第二个参数" class="headerlink" title="第二个参数"></a>第二个参数</h3><p>setState()的第二个参数是一个回调函数，它会在 setState()完成，并且组件被渲染完毕时被调用，类似于 componentDidUpdate。<br>由于 setState 是异步的，因此回调函数用于任何后期操作，比如，获取更新后的 state 值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.state = &#123;<span class="attr">foo</span>: <span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">this</span>.setState(&#123;<span class="attr">foo</span>: <span class="number">123</span>&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.state.foo);</span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.state = &#123;<span class="attr">foo</span>: <span class="number">2</span>&#125;;</span><br><span class="line"><span class="keyword">this</span>.setState(&#123;<span class="attr">foo</span>: <span class="number">123</span>&#125;, ()=&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(foo);</span><br><span class="line">    <span class="comment">// 123</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>关于 setState 中回调函数的更多用法，可以参考：<br><a href="https://medium.com/@voonminghann/when-to-use-callback-function-of-setstate-in-react-37fff67e5a6c" target="_blank" rel="noopener">https://medium.com/@voonminghann/when-to-use-callback-function-of-setstate-in-react-37fff67e5a6c</a><br><a href="https://segmentfault.com/a/1190000008051628" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008051628</a></p>
 
       
 
@@ -272,7 +271,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/05/frontend/creat-ajax-demo/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/15/frontend/setState/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -287,8 +286,8 @@
 <nav id="article-nav">
   
   
-    <a href="/2018/08/01/frontend/create-react-app-from-scracth/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">从零开始搭建ReactApp</div>
+    <a href="/2018/09/05/frontend/create-ajax-demo/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">创建一个ajax应用程序</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -331,7 +330,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 花底相
+    		&copy; 2019 花底相
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
