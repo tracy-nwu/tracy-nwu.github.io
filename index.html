@@ -152,6 +152,560 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-frontend/fetch" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/24/frontend/fetch/">fetch</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/24/frontend/fetch/" class="archive-article-date">
+  	<time datetime="2019-01-23T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>参考文章<br><a href="https://www.w3ctech.com/topic/854" target="_blank" rel="noopener">https://www.w3ctech.com/topic/854</a><br><a href="https://juejin.im/post/59165ec2128fe1005cb6c950" target="_blank" rel="noopener">https://juejin.im/post/59165ec2128fe1005cb6c950</a></p>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>avaScript 通过 XMLHttpRequest(XHR)来执行异步请求，这个方式已经存在了很长一段时间。虽说它很有用，但它不是最佳 API。它在设计上不符合职责分离原则，将输入、输出和用事件来跟踪的状态混杂在一个对象里。而且，基于事件的模型与最近 JavaScript 流行的 Promise 以及基于生成器的异步编程模型不太搭（事件模型在处理异步上有点过时了——译者注）。<br>新的 Fetch API 打算修正上面提到的那些缺陷。 它向 JS 中引入和 HTTP 协议中同样的原语（即 Fetch——译者注）。具体而言，它引入一个实用的函数 fetch()用来简洁捕捉从网络上检索一个资源的意图。<br>Fetch 规范的 API 明确了用户代理获取资源的语义。它结合 ServiceWorkers，尝试达到以下优化：<br>改善离线体验<br>保持可扩展性<br>到写这篇文章的时候，Fetch API 被 Firefox 39（Nightly 版）以及 Chrome 42（开发版）支持。在 github 上，有基于低版本浏览器的兼容实现</p>
+<h3 id="Fetch-获取数据"><a href="#Fetch-获取数据" class="headerlink" title="Fetch 获取数据"></a>Fetch 获取数据</h3><p>使用 Fetch 获取数据很容易。只需要 Fetch 你想获取资源。</p>
+<p>假设我们想通过 GitHub 获取一个仓库，我们可以像下面这样使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">"https://api.github.com/users/chriscoyier/repos"</span>);</span><br><span class="line">复制代码;</span><br></pre></td></tr></table></figure>
+<p>Fetch 会返回 Promise，所以在获取资源后，可以使用.then 方法做你想做的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'https://api.github.com/users/chriscoyier/repos'</span>)</span><br><span class="line">  .then(<span class="function"><span class="params">response</span> =&gt;</span> &#123;<span class="comment">/* do something */</span>&#125;)复制代码</span><br></pre></td></tr></table></figure>
+<p>如果这是你第一次遇见 Fetch，也许惊讶于 Fetch 返回的 response。如果 console.log 返回的 response，会得到下列信息：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  body: ReadableStream;</span><br><span class="line">  bodyUsed: <span class="literal">false</span>;</span><br><span class="line">  headers: Headers;</span><br><span class="line">  ok: <span class="literal">true</span>;</span><br><span class="line">  redirected: <span class="literal">false</span>;</span><br><span class="line">  status: <span class="number">200</span>;</span><br><span class="line">  statusText: <span class="string">"OK"</span>;</span><br><span class="line">  type: <span class="string">"cors"</span>;</span><br><span class="line">  url: <span class="string">"http://some-website.com/some-url"</span>;</span><br><span class="line">  __proto__: Response;</span><br><span class="line">&#125;</span><br><span class="line">复制代码;</span><br></pre></td></tr></table></figure>
+<p>可以看出 Fetch 返回的响应能告知请求的状态。从上面例子看出请求是成功的（ok 是 true，status 是 200），但是我们想获取的仓库名却不在这里。</p>
+<p>显然，我们从 GitHub 请求的资源都存储在 body 中，作为一种可读的流。所以需要调用一个恰当方法将可读流转换为我们可以使用的数据。</p>
+<p>当然 response 只是一个 HTTP 响应，而不是真的 JSON。为了获取 JSON 的内容，我们需要使用 json()方法</p>
+<p>还有其他方法来处理不同类型的响应。如果请求一个 XML 格式文件，则调用 response.text。如果请求图片，使用 response.blob 方法。</p>
+<p>所有这些方法(response.json 等等）返回另一个 Promise，所以可以调用.then 方法处理我们转换后的数据。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">"https://api.github.com/users/chriscoyier/repos"</span>)</span><br><span class="line">  .then(<span class="function"><span class="params">response</span> =&gt;</span> response.json())</span><br><span class="line">  .then(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// data就是我们请求的repos</span></span><br><span class="line">    <span class="built_in">console</span>.log(data);</span><br><span class="line">  &#125;);</span><br><span class="line">复制代码;</span><br></pre></td></tr></table></figure>
+<p>可以看出 Fetch 获取数据方法简短并且简单。</p>
+<p>接下来，让我们看看如何使用 Fetch 发送数据。</p>
+<h3 id="Fetch-发送数据"><a href="#Fetch-发送数据" class="headerlink" title="Fetch 发送数据"></a>Fetch 发送数据</h3><p>使用 Fetch 发送也很简单，只需要配置三个参数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">"some-url"</span>, options);</span><br><span class="line">复制代码;</span><br></pre></td></tr></table></figure>
+<p>第一个参数是设置请求方法（如 post、put 或 del），Fetch 会自动设置方法为 get。</p>
+<p>第二个参数是设置头部。因为一般使用 JSON 数据格式，所以设置 ContentType 为 application/json。</p>
+<p>第三个参数是设置包含 JSON 内容的主体。因为 JSON 内容是必须的，所以当设置主体时会调用</p>
+<p>JSON.stringify。</p>
+<p>实践中，post 请求会像下面这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> content = &#123; <span class="attr">some</span>: <span class="string">"content"</span> &#125;;</span><br><span class="line"><span class="comment">// The actual fetch request</span></span><br><span class="line">fetch(<span class="string">"some-url"</span>, &#123;</span><br><span class="line">  method: <span class="string">"post"</span>,</span><br><span class="line">  headers: &#123;</span><br><span class="line">    <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  body: <span class="built_in">JSON</span>.stringify(content)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// .then()...复制代码</span></span><br></pre></td></tr></table></figure>
+<p>fetch 规范与 jQuery.ajax()主要有两种方式的不同：<br>当接收到一个代表错误的 HTTP 状态码时，从 fetch()返回的 Promise 不会被标记为 reject， 即使该 HTTP 响应的状态码是 404 或 500。相反，它会将 Promise 状态标记为 resolve （但是会将 resolve 的返回值的 ok 属性设置为 false ），仅当网络故障时或请求被阻止时，才会标记为 reject。<br>默认情况下，fetch 不会从服务端发送或接收任何 cookies, 如果站点依赖于用户 session，则会导致未经认证的请求（要发送 cookies，必须设置 credentials 选项）。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/24/frontend/fetch/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-frontend/ajax" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/03/frontend/ajax/">AJAX</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/03/frontend/ajax/" class="archive-article-date">
+  	<time datetime="2019-01-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="为什么是-AJAX？"><a href="#为什么是-AJAX？" class="headerlink" title="为什么是 AJAX？"></a>为什么是 AJAX？</h3><p>背景问题：<br>web 自诞生以来，就沿用“单击，等待”的交互模式,用户单击后，必须刷新才能取得新数据。</p>
+<p>AJAX 技术的核心——XMLHttpRequest:<br>XHR 向服务器发送请求和解析服务器响应提供了流畅的接口。XHR 对象能够以异步的方式从服务器获取更多的信息，然后再通过 DOM 将新数据插入到页面中。意味着用户单击页面后不用刷新页面也可以获取新数据。</p>
+<h3 id="什么是-AJAX"><a href="#什么是-AJAX" class="headerlink" title="什么是 AJAX"></a>什么是 AJAX</h3><p>AJAX 是异步的 JavaScript 和 XML（Asynchronous JavaScript And XML）。实质就是，使用 XMLHttpRequest 对象与服务器通信。AJAX 最吸引人的就是它的“异步”特性，也就是说他可以在不重新刷新页面的情况下与服务器通信，交换数据，或更新页面。</p>
+<p>虽然名字中包含 XML 成分，但 AJAX 通信与数据格式无关；这种技术就是不用刷新页面就可以从服务器取得数据，但不一定是 XML 数据。它可以使用 JSON，XML，HTML 和 text 文本等格式发送和接收数据。</p>
+<p>两大功能: 1)在不重新加载页面的情况下发送请求给服务器。 2)接受并使用从服务器发来的数据。</p>
+<h3 id="请求步骤"><a href="#请求步骤" class="headerlink" title="请求步骤"></a>请求步骤</h3><p>Step1:发送 HTTP 请求</p>
+<p>为了使用 JavaScript 向服务器发送一个 http 请求，需要一个包含必要函数功能的对象实例 XMLHttpRequest<br>设置对象的 onreadystatechange 属性。告诉 XMLHttp 请求对象,收到响应后是由哪一个 JavaScript 函数处理响应，当请求状态改变时调用函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.onreadystatechange = nameOfTheFunction;</span><br></pre></td></tr></table></figure>
+<p>通过调用 HTTP 请求对象的 open() 和 send() 方法，发送一个实际的请求</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.open(<span class="string">"GET"</span>, <span class="string">"http://www.example.org/some.file"</span>, <span class="literal">true</span>);</span><br><span class="line">httpRequest.send();</span><br></pre></td></tr></table></figure>
+<p>open() 的第一个参数是 HTTP 请求方法 - 有 GET，POST，HEAD 以及服务器支持的其他方法。第二个参数是你要发送的 URL。由于安全原因，默认不能调用第三方 URL 域名。第三个参数是可选的，用于设置请求是否是异步的。<br>send() 方法的参数可以是任何你想发送给服务器的内容.</p>
+<p>Step2：处理服务器响应</p>
+<p>在发送请求时，你之前提供的 JavaScript 函数名负责处理响应：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.onreadystatechange = nameOfTheFunction;</span><br></pre></td></tr></table></figure>
+<p>首先，函数要检查请求的状态。如果状态的值是 XMLHttpRequest.DONE （对应的值是 4），意味着服务器响应收到了并且是没问题的，然后就可以继续执行。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</span><br><span class="line">  <span class="comment">// Everything is good, the response was received.</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// Not ready yet.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>全部 readyState 状态值都在 XMLHTTPRequest.readyState，如下也是：<br>0 (未初始化) or (请求还未初始化)<br>1 (正在加载) or (已建立服务器链接)<br>2 (加载成功) or (请求已接受)<br>3 (交互) or (正在处理请求)<br>4 (完成) or (请求已完成并且响应已准备好)<br>然后，检查响应码，区别对待成功和不成功的 AJAX 调用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (httpRequest.status === <span class="number">200</span>) &#123;</span><br><span class="line">  <span class="comment">// Perfect!</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// There was a problem with the request.</span></span><br><span class="line">  <span class="comment">// For example, the response may have a 404 (Not Found)</span></span><br><span class="line">  <span class="comment">// or 500 (Internal Server Error) response code.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在检查完请求状态和 HTTP 响应码后， 你就可以用服务器返回的数据做任何你想做的了。你有两个方法去访问这些数据：<br>httpRequest.responseText – 服务器以文本字符的形式返回<br>httpRequest.responseXML – 以 XMLDocument 对象方式返回，之后就可以使用 JavaScript 来处理</p>
+<p>注意上面这一步只在你发起异步请求时有效（既 open() 的第三个参数未特别指定或设为 true）。如果你发起的是同步请求则不必使用函数，但是非常不推荐使用同步请求，用户体验会很烂。</p>
+<p>Step3：举例</p>
+<p>让我们把所有的知识都集中起来做一个简单的 HTTP 请求。这个 JavaScript 会请求一个 HTML 文档 test.html，包含 “I’m a test” 内容。然后我们 alert() 响应的内容。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"ajaxButton"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>Make a request<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> httpRequest;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span></span></span><br><span class="line"><span class="javascript">      .getElementById(<span class="string">"ajaxButton"</span>)</span></span><br><span class="line"><span class="javascript">      .addEventListener(<span class="string">"click"</span>, makeRequest);</span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      httpRequest = <span class="keyword">new</span> XMLHttpRequest();</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (!httpRequest) &#123;</span></span><br><span class="line"><span class="javascript">        alert(<span class="string">"Giving up :( Cannot create an XMLHTTP instance"</span>);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="literal">false</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      httpRequest.onreadystatechange = alertContents;</span></span><br><span class="line"><span class="javascript">      httpRequest.open(<span class="string">"GET"</span>, <span class="string">"test.html"</span>);</span></span><br><span class="line"><span class="undefined">      httpRequest.send();</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">alertContents</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (httpRequest.status === <span class="number">200</span>) &#123;</span></span><br><span class="line"><span class="undefined">          alert(httpRequest.responseText);</span></span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">          alert(<span class="string">"There was a problem with the request."</span>);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;)();</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>用户点击 “Make a request” 按钮；<br>事件处理调用 makeRequest() 函数；<br>请求已通过然后（onreadystatechange）传给 alertContents() 执行。<br>alertContents() 检查返回的响应是否 OK，然后 alert() test.html 文件内容。<br>在通信错误的事件中（例如服务器宕机），在访问响应状态 onreadystatechange 方法中会抛出一个例外。为了缓和这种情况，则可以使用 try…catch 把 if…then 语句包裹起来。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">alertContents</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</span><br><span class="line">      <span class="keyword">if</span> (httpRequest.status === <span class="number">200</span>) &#123;</span><br><span class="line">        alert(httpRequest.responseText);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        alert(<span class="string">"There was a problem with the request."</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    alert(<span class="string">"Caught Exception: "</span> + e.description);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Step 4 – 处理 XML 响应节</p>
+<p>XML 被设计用来传输和存储数据。<br>HTML 被设计用来显示数据。<br>没有任何行为的 XML<br>也许这有点难以理解，但是 XML 不会做任何事情。XML 被设计用来结构化、存储以及传输信息。</p>
+<p>下面是 John 写给 George 的便签，存储为 XML：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">note</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">to</span>&gt;</span>George<span class="tag">&lt;/<span class="name">to</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">from</span>&gt;</span>John<span class="tag">&lt;/<span class="name">from</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">heading</span>&gt;</span>Reminder<span class="tag">&lt;/<span class="name">heading</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span>Don't forget the meeting!<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">note</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上面的这条便签具有自我描述性。它拥有标题以及留言，同时包含了发送者和接受者的信息。</p>
+<p>但是，这个 XML 文档仍然没有做任何事情。它仅仅是包装在 XML 标签中的纯粹的信息。我们需要编写软件或者程序，才能传送、接收和显示出这个文档。</p>
+<p>在上一个例子中，在收到 HTTP 请求的响应后我们会请求对象的 responseText 属性，包含 test.html 文件的内容。现在我们试试 responseXML 属性。<br>首先，我们创建一个稍后将要请求的有效的 XML 文档。文档（test.html）包含以下内容：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" ?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line">  I'm a test.</span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在脚本里我们只需要把请求行改为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">onclick=<span class="string">"makeRequest('test.xml')"</span>&gt;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>然后在 alertContents() 里，我们把 alert(httpRequest.responseText) 改为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xmldoc = httpRequest.responseXML;</span><br><span class="line"><span class="keyword">var</span> root_node = xmldoc.getElementsByTagName(<span class="string">"root"</span>).item(<span class="number">0</span>);</span><br><span class="line">alert(root_node.firstChild.data);</span><br></pre></td></tr></table></figure>
+<p>这部分代码采用 responseXML 提供的 XMLDocument 对象，并使用 DOM 方法访问 XML 文档中包含的一些数据。</p>
+<p>Step 5 – 处理数据</p>
+<p>最后，我们发送一个数据给服务器并收到响应。这次我们用 JavaScript 请求动态页面，test.php 并返回一个计算后的字符串 - “Hello, [user date]”，并用 alert() 出来。<br>首先要添加一个文本到 HTML 中以方便用户输入名字：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">label</span></span></span><br><span class="line"><span class="tag">  &gt;</span>Your name:</span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"ajaxTextbox"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"ajaxButton"</span> <span class="attr">style</span>=<span class="string">"cursor: pointer; text-decoration: underline"</span>&gt;</span></span><br><span class="line">  Make a request</span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>还要添加事件处理程序，从表单中获取用户数据连同服务器端的 UTL 一并发送给 makeRequest() 函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">"ajaxButton"</span>).onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> userName = <span class="built_in">document</span>.getElementById(<span class="string">"ajaxTextbox"</span>).value;</span><br><span class="line">  makeRequest(<span class="string">"test.php"</span>, userName);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>我们还要修改 makeRequest() 让它接受用户数据并将其发给服务器。把请求方法从 GET 改为 POST，把数据作为参数让 httpRequest.send() 调用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params">url, userName</span>) </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    httpRequest.onreadystatechange = alertContents;</span><br><span class="line">    httpRequest.open(<span class="string">'POST'</span>, url);</span><br><span class="line">    httpRequest.setRequestHeader(<span class="string">'Content-Type'</span>, <span class="string">'application/x-www-form-urlencoded'</span>);</span><br><span class="line">    httpRequest.send(<span class="string">'userName='</span> + <span class="built_in">encodeURIComponent</span>(userName));</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>如果这就是服务器返回的全部内容，alertContents() 函数可以使用 step 3 中的相同函数写。可是，服务器会返回计算后的内容和原内容。所以，如果用户输入 “Jane” 在输入框中，那服务器就会返回如下内容：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">"userData"</span>:<span class="string">"Jane"</span>,<span class="string">"computedString"</span>:<span class="string">"Hi, Jane!"</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>为了在 alertContents() 中使用这个数据，我们可不能只是 alert responseText ，我们要解析它并 alert conputedString，我们想要的属性：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">alertContents</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</span><br><span class="line">    <span class="keyword">if</span> (httpRequest.status === <span class="number">200</span>) &#123;</span><br><span class="line">      <span class="keyword">var</span> response = <span class="built_in">JSON</span>.parse(httpRequest.responseText);</span><br><span class="line">      alert(response.computedString);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      alert(<span class="string">"There was a problem with the request."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>test.php 文件应该包含以下内容：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$name = (<span class="keyword">isset</span>($_POST[<span class="string">'userName'</span>])) ? $_POST[<span class="string">'userName'</span>] : <span class="string">'no name'</span>;</span><br><span class="line">$computedString = <span class="string">"Hi, "</span> . $name;</span><br><span class="line">$array = [<span class="string">'userName'</span> =&gt; $name, <span class="string">'computedString'</span> =&gt; $computedString];</span><br><span class="line"><span class="keyword">echo</span> json_encode($array);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>PHP 是一种创建动态交互性站点的强有力的服务器端脚本语言。<br>json 是一种轻量级的数据格式，而不是一种编程语言。可以表示简单值、对象、数组三种数据类型，与 JS 不同，它表示对象和数组时，没有变量和分号，而且对象中的属性也需要加上引号，且必须是双引号。<br>序列化选项 JSON.stringfy()，将 JS 数据转化为 JSON 格式<br>解析选项 JSON.parse()，将 JSON 数据转化为 JS</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/03/frontend/ajax/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-frontend/single-thread" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/15/frontend/single-thread/">什么是单线程?</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/15/frontend/single-thread/" class="archive-article-date">
+  	<time datetime="2018-12-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>线程（英语：thread）是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。</p>
+<h3 id="线程与进程"><a href="#线程与进程" class="headerlink" title="线程与进程"></a>线程与进程</h3><p>对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个 Word 就启动了一个 Word 进程。</p>
+<p>有些进程还不止同时干一件事，比如 Word，它可以同时进行打字、拼写检查、打印等事情。在一个进程内部，要同时干多件事，就需要同时运行多个“子任务”，我们把进程内的这些“子任务”称为线程（Thread）。</p>
+<p>由于每个进程至少要干一件事，所以，一个进程至少有一个线程。当然，像 Word 这种复杂的进程可以有多个线程，多个线程可以同时执行，多线程的执行方式和多进程是一样的，也是由操作系统在多个线程之间快速切换，让每个线程都短暂地交替运行，看起来就像同时执行一样。当然，真正地同时执行多线程需要多核 CPU 才可能实现。</p>
+<p>我们前面编写的所有的 Python 程序，都是执行单任务的进程，也就是只有一个线程。如果我们要同时执行多个任务怎么办？</p>
+<h3 id="有两种解决方案："><a href="#有两种解决方案：" class="headerlink" title="有两种解决方案："></a>有两种解决方案：</h3><p>一种是启动多个进程，每个进程虽然只有一个线程，但多个进程可以一块执行多个任务。<br>还有一种方法是启动一个进程，在一个进程内启动多个线程，这样，多个线程也可以一块执行多个任务。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>几乎所有的操作系统都支持同时运行多个任务，一个任务通常就是一个程序，每个运行中的程序就是一个进程。 当一个程序运行时，内部可能包含了多个顺序执行流，每个顺序执行流就是一个线程。</p>
+<p>线程是最小的执行单元，而进程由至少一个线程组成。如何调度进程和线程，完全由操作系统决定，程序自己不能决定什么时候执行，执行多长时间。</p>
+<h3 id="概念总结："><a href="#概念总结：" class="headerlink" title="概念总结："></a>概念总结：</h3><p>程序：由源代码生成的可执行应用。</p>
+<p>进程：当一个程序开始运行时，它就是一个进程，进程包括运行中的程序和程序所使用到的内存和系统资源。而一个进程又是由多个线程所组成的。</p>
+<p>线程：线程是程序中的一个执行流，每个线程都有自己的专有寄存器(栈指针、程序计数器等)，但代码区是共享的即不同的线程可以执行同样的函数（一个进程中的线程可以该进程中的共享数据）。</p>
+<p>单线程：当一个进程中只有一个线程，称为单线程。所谓单线程即代码一行一行按顺序执行，后面的代码必须等待前面的执行完毕才可以执行</p>
+<p>多线程：当一个程序中同时运行多个线程完成不同的工作，称为多线程。</p>
+<h3 id="JS-是单线程的"><a href="#JS-是单线程的" class="headerlink" title="JS 是单线程的"></a>JS 是单线程的</h3><p>单线程在某个特定的时刻只有特定的代码能够被执行，并阻塞其它的代码。对于普通的耗时短的代码来说可能没有什么问题，但是对于耗时长的一段代码来说，就会造成卡顿，比如说发起一个网络请求，请求的资源何时返回，这个时间是不可预估的，这种情况下会造成卡顿。所以 js 针对这种情况设计了异步。</p>
+<p>异步： 异步的实质是  事件发生促使程序的执行点来回跳转。我们使用 callback 本质上是描述跳转的一种手段。（js 是单线程的，如果要同时处理多个任务，只能让程序的执行点在不同任务之间来回切换，因为执行速度快，所以看起来像是同时进行一样。(这个说法有问题，但有助于理解异步)）</p>
+<p>JavaScript 引擎是单线程处理它的任务队列。当异步事件发生时，鼠标点击事件发生、定时器触发事件发生、XMLHttpRequest 完成回调触发等，将他们放入执行队列，等待当前代码执行完成。</p>
+<p>javascript 运行机制<a href="https://juejin.im/post/59e85eebf265da430d571f89（必看）" target="_blank" rel="noopener">https://juejin.im/post/59e85eebf265da430d571f89（必看）</a><br>javascript 异步和单线程多线程的疑惑<a href="https://www.zhihu.com/question/47371217" target="_blank" rel="noopener">https://www.zhihu.com/question/47371217</a><br>javascript 单线程和 eventloop<a href="https://www.zhihu.com/question/35905242/answer/129806690" target="_blank" rel="noopener">https://www.zhihu.com/question/35905242/answer/129806690</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/15/frontend/single-thread/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-frontend/closure" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/05/frontend/closure/">闭包</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/05/frontend/closure/" class="archive-article-date">
+  	<time datetime="2018-11-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>闭包是函数和声明该函数的词法环境的组合。</p>
+<h3 id="闭包的本质"><a href="#闭包的本质" class="headerlink" title="闭包的本质"></a>闭包的本质</h3><p>JavaScript 闭包的本质源自两点，词法作用域和函数当作值传递。</p>
+<p>词法作用域，就是，按照代码书写时的样子，内部函数可以访问函数外面的变量。引擎通过数据结构和算法表示一个函数，使得在代码解释执行时按照词法作用域的规则，可以访问外围的变量，这些变量就登记在相应的数据结构中。</p>
+<p>函数当作值传递，即所谓的 first class 对象。就是可以把函数当作一个值来赋值，当作参数传给别的函数，也可以把函数当作一个值 return。一个函数被当作值返回时，也就相当于返回了一个通道，这个通道可以访问这个函数词法作用域中的变量，即函数所需要的数据结构保存了下来，数据结构中的值在外层函数执行时创建，外层函数执行完毕时理因销毁，但由于内部函数作为值返回出去，这些值得以保存下来。而且无法直接访问，必须通过返回的函数。这也就是私有性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeFunc</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name = <span class="string">"Mozilla"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">displayName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        alert(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> displayName;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myFunc = makeFunc();  <span class="comment">//myFunc 返回displayName函数</span></span><br><span class="line">myFunc();</span><br></pre></td></tr></table></figure>
+<p>在我们的例子中，myFunc  是执行  makeFunc  时创建的  displayName  函数实例的引用，而  displayName  实例仍可访问其词法作用域中的变量，即可以访问到  name 。由此，当  myFunc  被调用时，name  仍可被访问，其值  Mozilla  就被传递到 alert 中。</p>
+<h3 id="函数工厂"><a href="#函数工厂" class="headerlink" title="函数工厂"></a>函数工厂</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeAdder</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> add5 = makeAdder(<span class="number">5</span>);</span><br><span class="line"><span class="keyword">var</span> add10 = makeAdder(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(add5(<span class="number">2</span>));  <span class="comment">// 7</span></span><br><span class="line"><span class="built_in">console</span>.log(add10(<span class="number">2</span>)); <span class="comment">// 12</span></span><br></pre></td></tr></table></figure>
+<p>makeAdder  是一个函数工厂——他创建了将指定的值和它的参数相加求和的函数。在上面的示例中，我们使用函数工厂创建了两个新函数 —— 一个将其参数和 5 求和，另一个和 10 求和。<br>函数工厂：返回一个函数</p>
+<h3 id="实用的闭包"><a href="#实用的闭包" class="headerlink" title="实用的闭包"></a>实用的闭包</h3><p>闭包很有用，因为它允许将函数与其所操作的某些数据（环境）关联起来。这显然类似于面向对象编程。在面向对象编程中，对象允许我们将某些数据（对象的属性）与一个或者多个方法相关联。<br>因此，通常你使用只有一个方法的对象的地方，都可以使用闭包。</p>
+<h3 id="用闭包模拟私有方法"><a href="#用闭包模拟私有方法" class="headerlink" title="用闭包模拟私有方法"></a>用闭包模拟私有方法</h3><p>私有方法不仅仅有利于限制对代码的访问：还提供了管理全局命名空间的强大能力，避免非核心的方法弄乱了代码的公共接口部分。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Counter = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> privateCounter = <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">changeBy</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">    privateCounter += val;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    increment: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      changeBy(<span class="number">1</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    decrement: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      changeBy(<span class="number">-1</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    value: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> privateCounter;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(Counter.value()); <span class="comment">/* logs 0 */</span></span><br><span class="line">Counter.increment();</span><br><span class="line">Counter.increment();</span><br><span class="line"><span class="built_in">console</span>.log(Counter.value()); <span class="comment">/* logs 2 */</span></span><br><span class="line">Counter.decrement();</span><br><span class="line"><span class="built_in">console</span>.log(Counter.value()); <span class="comment">/* logs 1 */</span></span><br></pre></td></tr></table></figure>
+<p>示例展现了如何使用闭包来定义公共函数，并令其可以访问私有函数和变量。这个方式也称为模块模式。</p>
+<p>这次我们只创建了一个词法环境，为三个函数所共享：Counter.increment，Counter.decrement  和  Counter.value。</p>
+<p>该共享环境创建于一个立即执行的匿名函数体内。这个环境中包含两个私有项：名为  privateCounter  的变量和名为  changeBy  的函数。这两项都无法在这个匿名函数外部直接访问。必须通过匿名函数返回的三个公共函数访问。</p>
+<p>这里我们定义了一个立即执行的匿名函数，并将他的值赋给了变量 counter，用于创建一个计数器。但是，我们可以把这个函数储存在另外一个变量 makeCounter 中，并用他来创建多个计数器。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> makeCounter = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> privateCounter = <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">changeBy</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">    privateCounter += val;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    increment: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      changeBy(<span class="number">1</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    decrement: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      changeBy(<span class="number">-1</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    value: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> privateCounter;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Counter1 = makeCounter();</span><br><span class="line"><span class="keyword">var</span> Counter2 = makeCounter();</span><br><span class="line"><span class="built_in">console</span>.log(Counter1.value()); <span class="comment">/* logs 0 */</span></span><br><span class="line">Counter1.increment();</span><br><span class="line">Counter1.increment();</span><br><span class="line"><span class="built_in">console</span>.log(Counter1.value()); <span class="comment">/* logs 2 */</span></span><br><span class="line">Counter1.decrement();</span><br><span class="line"><span class="built_in">console</span>.log(Counter1.value()); <span class="comment">/* logs 1 */</span></span><br><span class="line"><span class="built_in">console</span>.log(Counter2.value()); <span class="comment">/* logs 0 */</span></span><br></pre></td></tr></table></figure>
+<p>请注意两个计数器  counter1  和  counter2  是如何维护它们各自的独立性的。每个闭包都是引用自己词法作用域内的变量  privateCounter 。<br>每次调用其中一个计数器时，通过改变这个变量的值，会改变这个闭包的词法环境。然而在一个闭包内对变量的修改，不会影响到另外一个闭包中的变量。</p>
+<h3 id="在循环中创建闭包——一个常见的错误"><a href="#在循环中创建闭包——一个常见的错误" class="headerlink" title="在循环中创建闭包——一个常见的错误"></a>在循环中创建闭包——一个常见的错误</h3><p>作用域链这种配置机制引出了一个值得注意的副作用，闭包只能取得／包含函数／变量对象中／任何变量的最后一个值。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"help"</span>&gt;</span>Helpful notes will appear here<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>E-mail: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"email"</span> <span class="attr">name</span>=<span class="string">"email"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Name: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"name"</span> <span class="attr">name</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Age: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"age"</span> <span class="attr">name</span>=<span class="string">"age"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showHelp</span>(<span class="params">help</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'help'</span>).innerHTML = help;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setupHelp</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> helpText = [</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'email'</span>, <span class="string">'help'</span>: <span class="string">'Your e-mail address'</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'name'</span>, <span class="string">'help'</span>: <span class="string">'Your full name'</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'age'</span>, <span class="string">'help'</span>: <span class="string">'Your age (you must be over 16)'</span>&#125;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; helpText.length; i++) &#123;</span><br><span class="line">    <span class="keyword">var</span> item = helpText[i];</span><br><span class="line">    <span class="built_in">document</span>.getElementById(item.id).onfocus = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      showHelp(item.help);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setupHelp();</span><br></pre></td></tr></table></figure>
+<p>运行这段代码后，您会发现它没有达到想要的效果。无论焦点在哪个 input 上，显示的都是关于年龄的信息。</p>
+<p>原因是赋值给  onfocus  的是闭包。这些闭包是由他们的函数定义和在  setupHelp  作用域中捕获的环境所组成的。这三个闭包在循环中被创建，但他们共享了同一个词法作用域，在这个作用域中存在一个变量 item。当 onfocus 的回调执行时，item.help 的值被决定。由于循环在事件触发之前早已执行完毕，变量对象 item（被三个闭包所共享）已经指向了 helpText 的最后一项。</p>
+<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>一、函数工厂</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showHelp</span>(<span class="params">help</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'help'</span>).innerHTML = help;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeHelpCallback</span>(<span class="params">help</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> showHelp(help);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setupHelp</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> helpText = [</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'email'</span>, <span class="string">'help'</span>: <span class="string">'Your e-mail address'</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'name'</span>, <span class="string">'help'</span>: <span class="string">'Your full name'</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'age'</span>, <span class="string">'help'</span>: <span class="string">'Your age (you must be over 16)'</span>&#125;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; helpText.length; i++) &#123;</span><br><span class="line">    <span class="keyword">var</span> item = helpText[i];</span><br><span class="line">    <span class="built_in">document</span>.getElementById(item.id).onfocus = makeHelpCallback(item.help);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setupHelp();</span><br></pre></td></tr></table></figure>
+<p>二、匿名闭包</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showHelp</span>(<span class="params">help</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'help'</span>).innerHTML = help;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setupHelp</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> helpText = [</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'email'</span>, <span class="string">'help'</span>: <span class="string">'Your e-mail address'</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'name'</span>, <span class="string">'help'</span>: <span class="string">'Your full name'</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'age'</span>, <span class="string">'help'</span>: <span class="string">'Your age (you must be over 16)'</span>&#125;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; helpText.length; i++) &#123;</span><br><span class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       <span class="keyword">var</span> item = helpText[i];</span><br><span class="line">       <span class="built_in">document</span>.getElementById(item.id).onfocus = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">         showHelp(item.help);</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;)(); <span class="comment">// 马上把当前循环项的item与事件回调相关联起来，不至于取到外部的item值</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setupHelp();</span><br></pre></td></tr></table></figure>
+<p>三、使用 let</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showHelp</span>(<span class="params">help</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'help'</span>).innerHTML = help;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setupHelp</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> helpText = [</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'email'</span>, <span class="string">'help'</span>: <span class="string">'Your e-mail address'</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'name'</span>, <span class="string">'help'</span>: <span class="string">'Your full name'</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'id'</span>: <span class="string">'age'</span>, <span class="string">'help'</span>: <span class="string">'Your age (you must be over 16)'</span>&#125;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; helpText.length; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> item = helpText[i];</span><br><span class="line">    <span class="built_in">document</span>.getElementById(item.id).onfocus = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      showHelp(item.help);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setupHelp();</span><br></pre></td></tr></table></figure>
+<p>let 使每个闭包都绑定了块作用域的变量，这意味着不再需要额外的闭包。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/05/frontend/closure/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-frontend/global-variable" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/18/frontend/global-variable/">全局变量的优缺点</a>
+    </h1>
+  
+
+        
+        <a href="/2018/10/18/frontend/global-variable/" class="archive-article-date">
+  	<time datetime="2018-10-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h3><p>方便调用，各个函数都可以使用它，不用很麻烦的传递参数。</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><p>占用内存单元全局变量保存在静态存贮区，程序开始运行时为其分配内存，程序结束释放该内存。与局部变量的动态分配、动态释放相比，生存期比较长，因此过多的全局变量会占用较多的内存单元。</p>
+<p>全局变量破坏了函数的封装性能。函数象一个黑匣子，一般是通过函数参数和返回值进行输入输出，函数内部实现相对独立。但函数中如果使用了全局变量，那么函数体内的语句就可以绕过函数参数和返回值进行存取，这种情况破坏了函数的独立性，使函数对全局变量产生依赖。同时，也降低了该函数的可移植性。</p>
+<p>由于多个函数都可能使用全局变量，如果全局对象得到一个不正确的值，则必须查找整个程序以判断错误发生 的位置，对于程序的查错和调试都非常不利。</p>
+<p>所以不到万不得已，不使用全局变量</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/10/18/frontend/global-variable/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-frontend/browser-cache" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/03/frontend/browser-cache/">浏览器缓存相关知识整理</a>
+    </h1>
+  
+
+        
+        <a href="/2018/10/03/frontend/browser-cache/" class="archive-article-date">
+  	<time datetime="2018-10-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>浏览器缓存是提升页面性能同时减少服务器压力的利器，但同时在开发中经常会由于浏览器缓存而展示了「错误」的东西。那么浏览器缓存的机制究竟是怎样的？今天在网上看了一些资料之后，在这里做一个简单的整理，希望对你也会有所帮助。</p>
+<p>web 缓存分为很多种，比如数据库缓存、代理服务器缓存、CDN 缓存，以及浏览器缓存。</p>
+<p>浏览器缓存是将文件保存在客户端，在同一个会话过程中会检查缓存的副本是否足够新，在后退网页时，访问过的资源可以从浏览器缓存中拿出使用。通过减少服务器处理请求的数量，用户将获得更快的体验</p>
+<p>浏览器缓存分为强缓存和协商缓存</p>
+<h3 id="强制缓存／文档过期验证"><a href="#强制缓存／文档过期验证" class="headerlink" title="强制缓存／文档过期验证"></a>强制缓存／文档过期验证</h3><p>命中强制缓存</p>
+<p>当浏览器对某个资源的请求命中了强制缓存时，返回的 http 状态为 200，在 chrome 的开发者工具的 network 里面 size 会显示为 from memory cache<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1545310126003-5e7dbd94-ff09-4cd6-ae47-f1060c7c3639.png" alt=""></p>
+<p>强制缓存原理</p>
+<p>强制缓存是利用 Expires 或者 Cache-Control 这两个 http response header 实现的，它们都用来表示资源在客户端缓存的有效期。</p>
+<p>Expires 和 Cache-Control</p>
+<p>Expires 是 http1.0 提出的一个表示资源过期时间的 header，它是第一次发送 HTTP 请求时，由服务器返回的绝对时间，用 GMT 格式的字符串表示，如：Expires:Thu, 31 Dec 2037 23:55:55 GMT。当再次发送请求时，将请求时间与 Expires 指定的时间进行比较，确认缓存是否过期，若时间在 Expires 之前则未过期，命中缓存。</p>
+<p>Expires 是较老的强制缓存管理 header，由于它是服务器返回的一个绝对时间，在服务器时间与客户端时间相差较大时，缓存管理容易出现问题，比如随意修改下客户端时间，就能影响缓存命中的结果。所以在 http1.1 的时候，提出了一个新的 header，就是 Cache-Control。</p>
+<p>Cache-Control 是一个相对时间，在配置缓存的时候，以秒为单位，用数值表示，如：Cache-Control:max-age=315360000，在进行缓存命中的时候，都是利用客户端时间进行判断，所以相比较 Expires，Cache-Control 的缓存管理更有效，安全一些。</p>
+<p>当 response header 中，Expires 和 Cache-Control 同时存在时，Cache-Control 优先级高于 Expires：</p>
+<p>实现过程：</p>
+<p>1)浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在 respone 的 header 加上 Expires 或 Cache-Control 的 header，如：<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1545310477052-bf862467-bf49-4fea-88b9-8d8e04442880.png" alt=""></p>
+<p>2)浏览器在接收到这个资源后，会把这个资源连同所有 response header 一起缓存下来（所以缓存命中的请求返回的 header 并不是来自服务器，而是来自之前缓存的 header）；</p>
+<p>3）浏览器再请求这个资源时，先从缓存中寻找，找到这个资源后，拿出它的 Expires 和 Cache-Control 跟当前的请求时间比较，如果请求时间在指定的过期时间之前，就能命中缓存，否则就不行。</p>
+<p>4）如果缓存没有命中，浏览器直接从服务器加载资源时，Expires 和 Cache-Control 的 header 会被更新。</p>
+<p>Cache-Control 的取值：</p>
+<p>在 HTTP/1.1 中，Cache-Control 几乎取代了 Expires，成为最重要的规则，主要用于控制网页缓存，那么 Cache-Control 又是如何控制的呢？它的主要取值有：</p>
+<p>max-age（单位为 s）：指定设置缓存最大的有效时间，定义的是时间长短。当浏览器向服务器发送请求后，在 max-age 这段时间里浏览器就不会再向服务器发送请求了，即使服务器上的资源发生了变化，浏览器也不会得到通知。max-age 会覆盖掉 Expires，后面会有讨论。</p>
+<p>s-maxage（单位为 s）：同 max-age，只用于共享缓存（比如 CDN 缓存）。 比如，当 s-maxage=60 时，在这 60 秒中，即使更新了 CDN 的内容，浏览器也不会进行请求。也就是说 max-age 用于普通缓存，而 s-maxage 用于代理缓存。如果存在 s-maxage，则会覆盖掉 max-age 和 Expires header。</p>
+<p>public：指定响应会被缓存，并且在多用户间共享。即客户端缓存和代理器缓存如果没有指定 public 还是 private，则默认为 public。<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1545308709115-bf32eabe-0769-454c-bb48-783cd7828fad.png" alt=""></p>
+<p>private ：响应只作为私有的缓存，不能在用户间共享。如果要求 HTTP 认证，响应会自动设置为 private。</p>
+<p>no-cache ：指跳过文档过期的验证而直接进行服务器再验证，而 no-store 是指资源禁止被缓存。因此有的时候只设置 no-cache 防止缓存还是不够保险，还可以加上 private 指令，将过期时间设为过去的时间。</p>
+<p>no-store : 绝对禁止缓存，每次请求资源都要从服务器重新获取。</p>
+<p>must-revalidate：指定如果页面是过期的，则去服务器进行获取。这个指令并不常用，就不做过多的讨论了。</p>
+<p>强制缓存的应用</p>
+<p>强制缓存是前端性能优化最有力的工具，没有之一，对于有大量静态资源的网页，一定要利用强制缓存，提高响应速度。通常的做法是，为这些静态资源全部配置一个超时时间超长的 Expires 或 Cache-Control，这样用户在访问网页时，只会在第一次加载时从服务器请求静态资源，其它时候只要缓存没有失效并且用户没有强制刷新的条件下都会从自己的缓存中加载。</p>
+<p>然而这种缓存配置方式会带来一个新的问题，就是发布时资源更新的问题，比如某一张图片，在用户访问第一个版本的时候已经缓存到了用户的电脑上，当网站发布新版本，替换了这个图片时，已经访问过第一个版本的用户由于缓存的设置，导致在默认的情况下不会请求服务器最新的图片资源，除非他清掉或禁用缓存或者强制刷新，否则就看不到最新的图片效果。</p>
+<p>禁止浏览器缓存静态资源的方法</p>
+<p>可以设置请求头: Cache-Control: no-cache, no-store, must-revalidate .</p>
+<p>当然, 还有一种常用做法: 即给请求的资源增加一个版本号,这样做的好处就是你可以自由控制什么时候加载最新的资源. 如下:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> type=<span class="string">"text/css"</span> href=<span class="string">"css/style.css?version=1.8.9"</span> /&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="协商缓存／服务器再验证"><a href="#协商缓存／服务器再验证" class="headerlink" title="协商缓存／服务器再验证"></a>协商缓存／服务器再验证</h3><p>协商缓存的原理</p>
+<p>协商缓存是利用的是【Last-Modified，If-Modified-Since】和【ETag、If-None-Match】这两对 Header 来管理的。</p>
+<p>【Last-Modified，If-Modified-Since】</p>
+<p>1）浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在 respone 的 header 加上 Last-Modified 的 header，这个 header 表示这个资源在服务器上的最后修改时间：<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1545314628466-5abf69ee-717b-4add-9359-7a4adae3de6d.png" alt=""></p>
+<p>2）浏览器再次跟服务器请求这个资源时，在 request 的 header 上加上 If-Modified-Since 的 header，这个 header 的值就是上一次请求时返回的 Last-Modified 的值：<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1545314615595-90406da4-53da-4c6a-aabf-5b7fd10e230d.png" alt=""></p>
+<p>3）服务器再次收到资源请求时，根据浏览器传过来 If-Modified-Since 和资源在服务器上的最后修改时间判断资源是否有变化，如果没有变化则返回 304 Not Modified，但是不会返回资源内容；如果有变化，就正常返回资源内容。当服务器返回 304 Not Modified 的响应时，response header 中不会再添加 Last-Modified 的 header，因为既然资源没有变化，那么 Last-Modified 也就不会改变.</p>
+<p>4）浏览器收到 304 的响应后，就会从缓存中加载资源。</p>
+<p>5）如果协商缓存没有命中，浏览器直接从服务器加载资源时，Last-Modified Header 在重新加载的时候会被更新，下次请求时，If-Modified-Since 会启用上次返回的 Last-Modified 值。</p>
+<p>【Last-Modified，If-Modified-Since】都是根据服务器时间返回的 header，一般来说，在没有调整服务器时间和篡改客户端缓存的情况下，这两个 header 配合起来管理协商缓存是非常可靠的，但是有时候也会服务器上资源其实有变化，但是最后修改时间却没有变化的情况，而这种问题又很不容易被定位出来，而当这种情况出现的时候，就会影响协商缓存的可靠性。所以就有了另外一对 header 来管理协商缓存，这对 header 就是【ETag、If-None-Match】。</p>
+<p>【ETag、If-None-Match】</p>
+<p>1）浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在 respone 的 header 加上 ETag 的 header，这个 header 是服务器根据当前请求的资源生成的一个唯一标识，这个唯一标识是一个字符串，只要资源有变化这个串就不同，跟最后修改时间没有关系，所以能很好的补充 Last-Modified 的问题：<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1545314822927-5c5508ac-e03e-4bf0-9818-dc13fa41704b.png" alt=""></p>
+<p>2）浏览器再次跟服务器请求这个资源时，在 request 的 header 上加上 If-None-Match 的 header，这个 header 的值就是上一次请求时返回的 ETag 的值：<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1545314876121-afb2fa05-de70-4a1c-a407-2e373e582aa4.png" alt=""></p>
+<p>3）服务器再次收到资源请求时，根据浏览器传过来 If-None-Match 和然后再根据资源生成一个新的 ETag，如果这两个值相同就说明资源没有变化，否则就是有变化；如果没有变化则返回 304 Not Modified，但是不会返回资源内容；如果有变化，就正常返回资源内容。与 Last-Modified 不一样的是，当服务器返回 304 Not Modified 的响应时，由于 ETag 重新生成过，response header 中还会把这个 ETag 返回，即使这个 ETag 跟之前的没有变化。</p>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>浏览器与服务器通信的方式为应答模式，即：浏览器发起 HTTP 请求 – 服务器响应该请求。</p>
+<p>浏览器第一次向服务器发起该请求后拿到请求的结果中，除了请求的资源，还有包含了 Expires 或 Cache-Control、Last-Modified、ETag 等信息的响应，浏览器会根据响应报文中 HTTP 头的缓存标识（Expires 或 Cache-Control），决定是否缓存结果，是就将请求结果和缓存标识存入浏览器缓存中，简单的过程如下图：<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1545316857666-ef44d404-b0b4-4a0d-8b79-9ffaa8453c7f.png" alt=""></p>
+<p>下面一张流程图完整说明当浏览器发起 HTTP 请求时缓存机制的过程<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1545316154267-d8197006-7142-447d-aea0-9395d6bd869c.png" alt=""></p>
+<p>相关文章推荐<br><a href="https://juejin.im/entry/5ad86c16f265da505a77dca4" target="_blank" rel="noopener">https://juejin.im/entry/5ad86c16f265da505a77dca4</a><br><a href="https://juejin.im/post/59c602276fb9a00a3d135f2e" target="_blank" rel="noopener">https://juejin.im/post/59c602276fb9a00a3d135f2e</a><br><a href="https://segmentfault.com/a/1190000008377508?utm_source=weekly&amp;utm_medium=email&amp;utm_campaign=email_weekly" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008377508?utm_source=weekly&amp;utm_medium=email&amp;utm_campaign=email_weekly</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/10/03/frontend/browser-cache/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-frontend/setState" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -255,7 +809,7 @@
         <p>关于这篇文章：<br>MDN 上介绍 ajax 的文章<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start</a><br>该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。</p>
 <h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><p>AJAX 是异步的 JavaScript 和 XML（Asynchronous JavaScript And XML）。AJAX 最大的优点是在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页内容。<br>XMLHttpRequest（即 XHR）对象是 ajax 的核心，简而言之，其实 ajax 就是使用 XMLHttpRequest 对象的方法和属性实现与服务器通信的。</p>
 <h3 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h3><p>建立 ajax－demo 文件夹，并在其中建立 index.html 文件，在<body>写入以下内容</body></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"ajaxButton"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>Make a request<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  (function() &#123;</span></span><br><span class="line"><span class="undefined">    var httpRequest;</span></span><br><span class="line"><span class="undefined">    document</span></span><br><span class="line"><span class="undefined">      .getElementById("ajaxButton")</span></span><br><span class="line"><span class="undefined">      .addEventListener("click", makeRequest);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    function makeRequest() &#123;</span></span><br><span class="line"><span class="undefined">      httpRequest = new XMLHttpRequest();</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">      if (!httpRequest) &#123;</span></span><br><span class="line"><span class="undefined">        alert("Giving up :( Cannot create an XMLHTTP instance");</span></span><br><span class="line"><span class="undefined">        return false;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      httpRequest.onreadystatechange = alertContents;</span></span><br><span class="line"><span class="undefined">      httpRequest.open("GET", "test.html");</span></span><br><span class="line"><span class="undefined">      httpRequest.send();</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    function alertContents() &#123;</span></span><br><span class="line"><span class="undefined">      if (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</span></span><br><span class="line"><span class="undefined">        if (httpRequest.status === 200) &#123;</span></span><br><span class="line"><span class="undefined">          alert(httpRequest.responseText);</span></span><br><span class="line"><span class="undefined">        &#125; else &#123;</span></span><br><span class="line"><span class="undefined">          alert("There was a problem with the request.");</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;)();</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"ajaxButton"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>Make a request<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> httpRequest;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span></span></span><br><span class="line"><span class="javascript">      .getElementById(<span class="string">"ajaxButton"</span>)</span></span><br><span class="line"><span class="javascript">      .addEventListener(<span class="string">"click"</span>, makeRequest);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      httpRequest = <span class="keyword">new</span> XMLHttpRequest();</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (!httpRequest) &#123;</span></span><br><span class="line"><span class="javascript">        alert(<span class="string">"Giving up :( Cannot create an XMLHTTP instance"</span>);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="literal">false</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      httpRequest.onreadystatechange = alertContents;</span></span><br><span class="line"><span class="javascript">      httpRequest.open(<span class="string">"GET"</span>, <span class="string">"test.html"</span>);</span></span><br><span class="line"><span class="undefined">      httpRequest.send();</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">alertContents</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (httpRequest.status === <span class="number">200</span>) &#123;</span></span><br><span class="line"><span class="undefined">          alert(httpRequest.responseText);</span></span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">          alert(<span class="string">"There was a problem with the request."</span>);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;)();</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><br></p>
 <h3 id="问题一："><a href="#问题一：" class="headerlink" title="问题一："></a>问题一：</h3><p>在浏览器中打开 index.html 时，总是弹出“There was a problem with the request.”<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1542366348472-a2c0ceda-db61-4544-9c7b-c485c144a006.png" alt=""><br>原因是访问 test.html 的路径被阻断了，让我们定位到相关代码</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.open(<span class="string">"GET"</span>, <span class="string">"test.html"</span>);</span><br></pre></td></tr></table></figure>
@@ -499,105 +1053,10 @@
 
 
   
-    <article id="post-frontend/NO8.html" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/01/frontend/NO8.html/">NO.8 回顾梳理 HTML</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/01/frontend/NO8.html/" class="archive-article-date">
-  	<time datetime="2018-02-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>The lists of HTML elements</p>
-</blockquote>
-<ul>
-<li>Main root<ul>
-<li>html</li>
-</ul>
-</li>
-<li><p>Document metadata</p>
-<ul>
-<li>link</li>
-<li>style</li>
-<li>title</li>
-<li>meta<ul>
-<li>The HTML <code>&lt;meta&gt;</code> element represents metadata that cannot be represented by other HTML meta-related elements, like <code>&lt;base&gt;</code>, <code>&lt;link&gt;</code>, <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code> or <code>&lt;title&gt;</code>.</li>
-<li>这些描述都可以在 vscode 中找到。所以平时写标签时多留意</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Sectioning root</p>
-<ul>
-<li>body</li>
-</ul>
-</li>
-<li><p>Content sectioning</p>
-<ul>
-<li>organize the document content into logical pieces</li>
-<li>address</li>
-<li>article</li>
-<li>aside</li>
-<li>footer</li>
-<li>header</li>
-<li>h1,h2,h3,h4,h5,h6</li>
-</ul>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/01/frontend/NO8.html/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 

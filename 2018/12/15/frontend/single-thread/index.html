@@ -6,24 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>创建一个ajax应用程序 | 大橙子的博客</title>
+  <title>什么是单线程? | 大橙子的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关于这篇文章：MDN 上介绍 ajax 的文章https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。 概念：AJAX 是异步的 JavaScript 和">
+  <meta name="description" content="线程线程（英语：thread）是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。 线程与进程对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打">
 <meta property="og:type" content="article">
-<meta property="og:title" content="创建一个ajax应用程序">
-<meta property="og:url" content="http://yoursite.com/2018/09/05/frontend/create-ajax-demo/index.html">
+<meta property="og:title" content="什么是单线程?">
+<meta property="og:url" content="http://yoursite.com/2018/12/15/frontend/single-thread/index.html">
 <meta property="og:site_name" content="大橙子的博客">
-<meta property="og:description" content="关于这篇文章：MDN 上介绍 ajax 的文章https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。 概念：AJAX 是异步的 JavaScript 和">
+<meta property="og:description" content="线程线程（英语：thread）是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。 线程与进程对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2018/png/160131/1542366348472-a2c0ceda-db61-4544-9c7b-c485c144a006.png">
-<meta property="og:image" content="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367100098-9fd952de-a310-4a18-80fa-cce48b43f504.png">
-<meta property="og:image" content="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367113922-fc2a2122-b487-4946-bdad-ad3ae5fdcbaf.png">
-<meta property="og:image" content="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367364564-a1183f08-86fd-46ba-9f04-53f314932748.png">
-<meta property="og:updated_time" content="2018-11-16T13:00:36.000Z">
+<meta property="og:updated_time" content="2019-02-10T06:44:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="创建一个ajax应用程序">
-<meta name="twitter:description" content="关于这篇文章：MDN 上介绍 ajax 的文章https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。 概念：AJAX 是异步的 JavaScript 和">
-<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2018/png/160131/1542366348472-a2c0ceda-db61-4544-9c7b-c485c144a006.png">
+<meta name="twitter:title" content="什么是单线程?">
+<meta name="twitter:description" content="线程线程（英语：thread）是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。 线程与进程对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打">
   
     <link rel="alternative" href="/atom.xml" title="大橙子的博客" type="application/atom+xml">
   
@@ -159,40 +154,43 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-frontend/create-ajax-demo" class="article article-type-post " itemscope="" itemprop="blogPost">
+            <article id="post-frontend/single-thread" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      创建一个ajax应用程序
+      什么是单线程?
     </h1>
   
 
         
-        <a href="/2018/09/05/frontend/create-ajax-demo/" class="archive-article-date">
-  	<time datetime="2018-09-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-05</time>
+        <a href="/2018/12/15/frontend/single-thread/" class="archive-article-date">
+  	<time datetime="2018-12-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-15</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>关于这篇文章：<br>MDN 上介绍 ajax 的文章<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start</a><br>该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。</p>
-<h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><p>AJAX 是异步的 JavaScript 和 XML（Asynchronous JavaScript And XML）。AJAX 最大的优点是在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页内容。<br>XMLHttpRequest（即 XHR）对象是 ajax 的核心，简而言之，其实 ajax 就是使用 XMLHttpRequest 对象的方法和属性实现与服务器通信的。</p>
-<h3 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h3><p>建立 ajax－demo 文件夹，并在其中建立 index.html 文件，在<body>写入以下内容</body></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"ajaxButton"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>Make a request<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> httpRequest;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span></span></span><br><span class="line"><span class="javascript">      .getElementById(<span class="string">"ajaxButton"</span>)</span></span><br><span class="line"><span class="javascript">      .addEventListener(<span class="string">"click"</span>, makeRequest);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      httpRequest = <span class="keyword">new</span> XMLHttpRequest();</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (!httpRequest) &#123;</span></span><br><span class="line"><span class="javascript">        alert(<span class="string">"Giving up :( Cannot create an XMLHTTP instance"</span>);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="literal">false</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      httpRequest.onreadystatechange = alertContents;</span></span><br><span class="line"><span class="javascript">      httpRequest.open(<span class="string">"GET"</span>, <span class="string">"test.html"</span>);</span></span><br><span class="line"><span class="undefined">      httpRequest.send();</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">alertContents</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (httpRequest.status === <span class="number">200</span>) &#123;</span></span><br><span class="line"><span class="undefined">          alert(httpRequest.responseText);</span></span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">          alert(<span class="string">"There was a problem with the request."</span>);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;)();</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><br></p>
-<h3 id="问题一："><a href="#问题一：" class="headerlink" title="问题一："></a>问题一：</h3><p>在浏览器中打开 index.html 时，总是弹出“There was a problem with the request.”<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1542366348472-a2c0ceda-db61-4544-9c7b-c485c144a006.png" alt=""><br>原因是访问 test.html 的路径被阻断了，让我们定位到相关代码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.open(<span class="string">"GET"</span>, <span class="string">"test.html"</span>);</span><br></pre></td></tr></table></figure>
-<p>httpRequest 是 XMLHttpRequest 对象的实例，继承了它的方法和属性，这里的 open()便是其中之一。<br>open()  接受三个参数，第一个是 HTTP 请求方法 - 通常有 GET，POST，HEAD。  第二个参数你要取得的内容的地址，改地址是相对于执行代码的当前页面的（当然也可以是绝对路径），通常是一段 URL，如 http://服务器地址/test。第三个参数是表示是否异步加载的布尔值，默认为true，可省略。<br>这里第二个参数直接写为 test.html，表明是这是一段本地路径。所以我们需要起一个本地的 server 服务，解决方法就是利用 vscode 中的 Live Server 插件。安装 Live Server。<br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367100098-9fd952de-a310-4a18-80fa-cce48b43f504.png" alt=""><br><br><br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367113922-fc2a2122-b487-4946-bdad-ad3ae5fdcbaf.png" alt=""><br><br><br>使用 Live Server 打开 index.html，依然弹出“There was a problem with the request.”查看 console 口<br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367364564-a1183f08-86fd-46ba-9f04-53f314932748.png" alt=""><br>浏览器提示，找不到相关文件，那么我们就建立 test.html 文件，随意写上你喜欢的一个句子，这里我们写“This is a test”</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This is a <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
-<p>再次打开，就会弹出我们想要的内容了。</p>
-<h3 id="问题二："><a href="#问题二：" class="headerlink" title="问题二："></a>问题二：</h3><p>为什么整段 ajax 代码要包含在一个立即执行的匿名函数中？<br>因为变量 httpRequest 是要在 ajax 的全局范围内使用的，它会在 makeRequest() 函数中被相互覆盖，从而导致资源竞争。为了避免这个情况，所以在包含 AJAX 函数的闭包中声明 httpRequest 变量。</p>
-<h3 id="ajax-运行过程小结："><a href="#ajax-运行过程小结：" class="headerlink" title="ajax 运行过程小结："></a>ajax 运行过程小结：</h3><p>1.发送请求，收到响应。<br>1.1 告诉请求对象是由哪一个 JavaScript 函数处理响应</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.onreadystatechange = nameOfTheFunction;</span><br></pre></td></tr></table></figure>
-<p>1.2 发送一个实际的请求，通过调用 HTTP 请求对象的 open() 和 send() 方法<br>2 处理服务器响应<br>2.1 函数要检查请求的状态。状态值是否是 XMLHttpRequest.DONE<br>2.2 检查响应码 200 OK<br>2.3 具体设置处理响应的函数</p>
+        <h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>线程（英语：thread）是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。</p>
+<h3 id="线程与进程"><a href="#线程与进程" class="headerlink" title="线程与进程"></a>线程与进程</h3><p>对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个 Word 就启动了一个 Word 进程。</p>
+<p>有些进程还不止同时干一件事，比如 Word，它可以同时进行打字、拼写检查、打印等事情。在一个进程内部，要同时干多件事，就需要同时运行多个“子任务”，我们把进程内的这些“子任务”称为线程（Thread）。</p>
+<p>由于每个进程至少要干一件事，所以，一个进程至少有一个线程。当然，像 Word 这种复杂的进程可以有多个线程，多个线程可以同时执行，多线程的执行方式和多进程是一样的，也是由操作系统在多个线程之间快速切换，让每个线程都短暂地交替运行，看起来就像同时执行一样。当然，真正地同时执行多线程需要多核 CPU 才可能实现。</p>
+<p>我们前面编写的所有的 Python 程序，都是执行单任务的进程，也就是只有一个线程。如果我们要同时执行多个任务怎么办？</p>
+<h3 id="有两种解决方案："><a href="#有两种解决方案：" class="headerlink" title="有两种解决方案："></a>有两种解决方案：</h3><p>一种是启动多个进程，每个进程虽然只有一个线程，但多个进程可以一块执行多个任务。<br>还有一种方法是启动一个进程，在一个进程内启动多个线程，这样，多个线程也可以一块执行多个任务。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>几乎所有的操作系统都支持同时运行多个任务，一个任务通常就是一个程序，每个运行中的程序就是一个进程。 当一个程序运行时，内部可能包含了多个顺序执行流，每个顺序执行流就是一个线程。</p>
+<p>线程是最小的执行单元，而进程由至少一个线程组成。如何调度进程和线程，完全由操作系统决定，程序自己不能决定什么时候执行，执行多长时间。</p>
+<h3 id="概念总结："><a href="#概念总结：" class="headerlink" title="概念总结："></a>概念总结：</h3><p>程序：由源代码生成的可执行应用。</p>
+<p>进程：当一个程序开始运行时，它就是一个进程，进程包括运行中的程序和程序所使用到的内存和系统资源。而一个进程又是由多个线程所组成的。</p>
+<p>线程：线程是程序中的一个执行流，每个线程都有自己的专有寄存器(栈指针、程序计数器等)，但代码区是共享的即不同的线程可以执行同样的函数（一个进程中的线程可以该进程中的共享数据）。</p>
+<p>单线程：当一个进程中只有一个线程，称为单线程。所谓单线程即代码一行一行按顺序执行，后面的代码必须等待前面的执行完毕才可以执行</p>
+<p>多线程：当一个程序中同时运行多个线程完成不同的工作，称为多线程。</p>
+<h3 id="JS-是单线程的"><a href="#JS-是单线程的" class="headerlink" title="JS 是单线程的"></a>JS 是单线程的</h3><p>单线程在某个特定的时刻只有特定的代码能够被执行，并阻塞其它的代码。对于普通的耗时短的代码来说可能没有什么问题，但是对于耗时长的一段代码来说，就会造成卡顿，比如说发起一个网络请求，请求的资源何时返回，这个时间是不可预估的，这种情况下会造成卡顿。所以 js 针对这种情况设计了异步。</p>
+<p>异步： 异步的实质是  事件发生促使程序的执行点来回跳转。我们使用 callback 本质上是描述跳转的一种手段。（js 是单线程的，如果要同时处理多个任务，只能让程序的执行点在不同任务之间来回切换，因为执行速度快，所以看起来像是同时进行一样。(这个说法有问题，但有助于理解异步)）</p>
+<p>JavaScript 引擎是单线程处理它的任务队列。当异步事件发生时，鼠标点击事件发生、定时器触发事件发生、XMLHttpRequest 完成回调触发等，将他们放入执行队列，等待当前代码执行完成。</p>
+<p>javascript 运行机制<a href="https://juejin.im/post/59e85eebf265da430d571f89（必看）" target="_blank" rel="noopener">https://juejin.im/post/59e85eebf265da430d571f89（必看）</a><br>javascript 异步和单线程多线程的疑惑<a href="https://www.zhihu.com/question/47371217" target="_blank" rel="noopener">https://www.zhihu.com/question/47371217</a><br>javascript 单线程和 eventloop<a href="https://www.zhihu.com/question/35905242/answer/129806690" target="_blank" rel="noopener">https://www.zhihu.com/question/35905242/answer/129806690</a></p>
 
       
 
@@ -272,7 +270,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/05/frontend/create-ajax-demo/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/12/15/frontend/single-thread/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -286,18 +284,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/09/15/frontend/setState/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/01/03/frontend/ajax/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          理解setState()
+          AJAX
         
       </div>
     </a>
   
   
-    <a href="/2018/08/01/frontend/create-react-app-from-scracth/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">从零开始搭建ReactApp</div>
+    <a href="/2018/11/05/frontend/closure/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">闭包</div>
       <i class="icon-circle-right"></i>
     </a>
   

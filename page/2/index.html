@@ -6,24 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>创建一个ajax应用程序 | 大橙子的博客</title>
+  <title>大橙子的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关于这篇文章：MDN 上介绍 ajax 的文章https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。 概念：AJAX 是异步的 JavaScript 和">
-<meta property="og:type" content="article">
-<meta property="og:title" content="创建一个ajax应用程序">
-<meta property="og:url" content="http://yoursite.com/2018/09/05/frontend/create-ajax-demo/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="大橙子的博客">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="大橙子的博客">
-<meta property="og:description" content="关于这篇文章：MDN 上介绍 ajax 的文章https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。 概念：AJAX 是异步的 JavaScript 和">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2018/png/160131/1542366348472-a2c0ceda-db61-4544-9c7b-c485c144a006.png">
-<meta property="og:image" content="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367100098-9fd952de-a310-4a18-80fa-cce48b43f504.png">
-<meta property="og:image" content="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367113922-fc2a2122-b487-4946-bdad-ad3ae5fdcbaf.png">
-<meta property="og:image" content="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367364564-a1183f08-86fd-46ba-9f04-53f314932748.png">
-<meta property="og:updated_time" content="2018-11-16T13:00:36.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="创建一个ajax应用程序">
-<meta name="twitter:description" content="关于这篇文章：MDN 上介绍 ajax 的文章https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。 概念：AJAX 是异步的 JavaScript 和">
-<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2018/png/160131/1542366348472-a2c0ceda-db61-4544-9c7b-c485c144a006.png">
+<meta name="twitter:title" content="大橙子的博客">
   
     <link rel="alternative" href="/atom.xml" title="大橙子的博客" type="application/atom+xml">
   
@@ -159,64 +150,68 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-frontend/create-ajax-demo" class="article article-type-post " itemscope="" itemprop="blogPost">
+            
+  
+    <article id="post-frontend/NO8.html" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      创建一个ajax应用程序
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/01/frontend/NO8.html/">NO.8 回顾梳理 HTML</a>
     </h1>
   
 
         
-        <a href="/2018/09/05/frontend/create-ajax-demo/" class="archive-article-date">
-  	<time datetime="2018-09-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-05</time>
+        <a href="/2018/03/01/frontend/NO8.html/" class="archive-article-date">
+  	<time datetime="2018-02-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-01</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>关于这篇文章：<br>MDN 上介绍 ajax 的文章<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX/Getting_Start</a><br>该篇中实现了一个 Make a request 按钮，当点击这个按钮，浏览器就会弹出 ajax 请求的文件的内容，本文将就我在写这个例子时遇到的问题进行一些分析。</p>
-<h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><p>AJAX 是异步的 JavaScript 和 XML（Asynchronous JavaScript And XML）。AJAX 最大的优点是在不重新加载整个页面的情况下，可以与服务器交换数据并更新部分网页内容。<br>XMLHttpRequest（即 XHR）对象是 ajax 的核心，简而言之，其实 ajax 就是使用 XMLHttpRequest 对象的方法和属性实现与服务器通信的。</p>
-<h3 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h3><p>建立 ajax－demo 文件夹，并在其中建立 index.html 文件，在<body>写入以下内容</body></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"ajaxButton"</span> <span class="attr">type</span>=<span class="string">"button"</span>&gt;</span>Make a request<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> httpRequest;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span></span></span><br><span class="line"><span class="javascript">      .getElementById(<span class="string">"ajaxButton"</span>)</span></span><br><span class="line"><span class="javascript">      .addEventListener(<span class="string">"click"</span>, makeRequest);</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">makeRequest</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      httpRequest = <span class="keyword">new</span> XMLHttpRequest();</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (!httpRequest) &#123;</span></span><br><span class="line"><span class="javascript">        alert(<span class="string">"Giving up :( Cannot create an XMLHTTP instance"</span>);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="literal">false</span>;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">      httpRequest.onreadystatechange = alertContents;</span></span><br><span class="line"><span class="javascript">      httpRequest.open(<span class="string">"GET"</span>, <span class="string">"test.html"</span>);</span></span><br><span class="line"><span class="undefined">      httpRequest.send();</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">alertContents</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (httpRequest.readyState === XMLHttpRequest.DONE) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (httpRequest.status === <span class="number">200</span>) &#123;</span></span><br><span class="line"><span class="undefined">          alert(httpRequest.responseText);</span></span><br><span class="line"><span class="javascript">        &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">          alert(<span class="string">"There was a problem with the request."</span>);</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;)();</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><br></p>
-<h3 id="问题一："><a href="#问题一：" class="headerlink" title="问题一："></a>问题一：</h3><p>在浏览器中打开 index.html 时，总是弹出“There was a problem with the request.”<br><img src="https://cdn.nlark.com/yuque/0/2018/png/160131/1542366348472-a2c0ceda-db61-4544-9c7b-c485c144a006.png" alt=""><br>原因是访问 test.html 的路径被阻断了，让我们定位到相关代码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.open(<span class="string">"GET"</span>, <span class="string">"test.html"</span>);</span><br></pre></td></tr></table></figure>
-<p>httpRequest 是 XMLHttpRequest 对象的实例，继承了它的方法和属性，这里的 open()便是其中之一。<br>open()  接受三个参数，第一个是 HTTP 请求方法 - 通常有 GET，POST，HEAD。  第二个参数你要取得的内容的地址，改地址是相对于执行代码的当前页面的（当然也可以是绝对路径），通常是一段 URL，如 http://服务器地址/test。第三个参数是表示是否异步加载的布尔值，默认为true，可省略。<br>这里第二个参数直接写为 test.html，表明是这是一段本地路径。所以我们需要起一个本地的 server 服务，解决方法就是利用 vscode 中的 Live Server 插件。安装 Live Server。<br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367100098-9fd952de-a310-4a18-80fa-cce48b43f504.png" alt=""><br><br><br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367113922-fc2a2122-b487-4946-bdad-ad3ae5fdcbaf.png" alt=""><br><br><br>使用 Live Server 打开 index.html，依然弹出“There was a problem with the request.”查看 console 口<br><img src="https://cdn-pri.nlark.com/yuque/0/2018/png/160131/1542367364564-a1183f08-86fd-46ba-9f04-53f314932748.png" alt=""><br>浏览器提示，找不到相关文件，那么我们就建立 test.html 文件，随意写上你喜欢的一个句子，这里我们写“This is a test”</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This is a <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
-<p>再次打开，就会弹出我们想要的内容了。</p>
-<h3 id="问题二："><a href="#问题二：" class="headerlink" title="问题二："></a>问题二：</h3><p>为什么整段 ajax 代码要包含在一个立即执行的匿名函数中？<br>因为变量 httpRequest 是要在 ajax 的全局范围内使用的，它会在 makeRequest() 函数中被相互覆盖，从而导致资源竞争。为了避免这个情况，所以在包含 AJAX 函数的闭包中声明 httpRequest 变量。</p>
-<h3 id="ajax-运行过程小结："><a href="#ajax-运行过程小结：" class="headerlink" title="ajax 运行过程小结："></a>ajax 运行过程小结：</h3><p>1.发送请求，收到响应。<br>1.1 告诉请求对象是由哪一个 JavaScript 函数处理响应</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpRequest.onreadystatechange = nameOfTheFunction;</span><br></pre></td></tr></table></figure>
-<p>1.2 发送一个实际的请求，通过调用 HTTP 请求对象的 open() 和 send() 方法<br>2 处理服务器响应<br>2.1 函数要检查请求的状态。状态值是否是 XMLHttpRequest.DONE<br>2.2 检查响应码 200 OK<br>2.3 具体设置处理响应的函数</p>
+        <blockquote>
+<p>The lists of HTML elements</p>
+</blockquote>
+<ul>
+<li>Main root<ul>
+<li>html</li>
+</ul>
+</li>
+<li><p>Document metadata</p>
+<ul>
+<li>link</li>
+<li>style</li>
+<li>title</li>
+<li>meta<ul>
+<li>The HTML <code>&lt;meta&gt;</code> element represents metadata that cannot be represented by other HTML meta-related elements, like <code>&lt;base&gt;</code>, <code>&lt;link&gt;</code>, <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code> or <code>&lt;title&gt;</code>.</li>
+<li>这些描述都可以在 vscode 中找到。所以平时写标签时多留意</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Sectioning root</p>
+<ul>
+<li>body</li>
+</ul>
+</li>
+<li><p>Content sectioning</p>
+<ul>
+<li>organize the document content into logical pieces</li>
+<li>address</li>
+<li>article</li>
+<li>aside</li>
+<li>footer</li>
+<li>header</li>
+<li>h1,h2,h3,h4,h5,h6</li>
+</ul>
+</li>
+</ul>
 
       
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -225,84 +220,16 @@
       
 
       
-
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/01/frontend/NO8.html/">展开全文 >></a>
+        </p>
       
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/09/05/frontend/create-ajax-demo/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/09/15/frontend/setState/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          理解setState()
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/08/01/frontend/create-react-app-from-scracth/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">从零开始搭建ReactApp</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -322,14 +249,12 @@
 
 
 
-  
-  
-  
 
   
-
   
-
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </nav>
   
 
 
@@ -352,8 +277,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: false,
-		isPost: true,
+		isHome: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
