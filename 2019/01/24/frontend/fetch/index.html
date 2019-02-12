@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>fetch | 大橙子的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="参考文章https://www.w3ctech.com/topic/854https://juejin.im/post/59165ec2128fe1005cb6c950 背景avaScript 通过 XMLHttpRequest(XHR)来执行异步请求，这个方式已经存在了很长一段时间。虽说它很有用，但它不是最佳 API。它在设计上不符合职责分离原则，将输入、输出和用事件来跟踪的状态混杂在一个对象里">
+  <meta name="description" content="参考文章https://www.w3ctech.com/topic/854https://juejin.im/post/59165ec2128fe1005cb6c950 背景JavaScript 通过 XMLHttpRequest(XHR)来执行异步请求，这个方式已经存在了很长一段时间。虽说它很有用，但它不是最佳 API。它在设计上不符合职责分离原则，将输入、输出和用事件来跟踪的状态混杂在一个对象">
 <meta property="og:type" content="article">
 <meta property="og:title" content="fetch">
 <meta property="og:url" content="http://yoursite.com/2019/01/24/frontend/fetch/index.html">
 <meta property="og:site_name" content="大橙子的博客">
-<meta property="og:description" content="参考文章https://www.w3ctech.com/topic/854https://juejin.im/post/59165ec2128fe1005cb6c950 背景avaScript 通过 XMLHttpRequest(XHR)来执行异步请求，这个方式已经存在了很长一段时间。虽说它很有用，但它不是最佳 API。它在设计上不符合职责分离原则，将输入、输出和用事件来跟踪的状态混杂在一个对象里">
+<meta property="og:description" content="参考文章https://www.w3ctech.com/topic/854https://juejin.im/post/59165ec2128fe1005cb6c950 背景JavaScript 通过 XMLHttpRequest(XHR)来执行异步请求，这个方式已经存在了很长一段时间。虽说它很有用，但它不是最佳 API。它在设计上不符合职责分离原则，将输入、输出和用事件来跟踪的状态混杂在一个对象">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-10T12:47:55.000Z">
+<meta property="og:updated_time" content="2019-02-12T07:46:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fetch">
-<meta name="twitter:description" content="参考文章https://www.w3ctech.com/topic/854https://juejin.im/post/59165ec2128fe1005cb6c950 背景avaScript 通过 XMLHttpRequest(XHR)来执行异步请求，这个方式已经存在了很长一段时间。虽说它很有用，但它不是最佳 API。它在设计上不符合职责分离原则，将输入、输出和用事件来跟踪的状态混杂在一个对象里">
+<meta name="twitter:description" content="参考文章https://www.w3ctech.com/topic/854https://juejin.im/post/59165ec2128fe1005cb6c950 背景JavaScript 通过 XMLHttpRequest(XHR)来执行异步请求，这个方式已经存在了很长一段时间。虽说它很有用，但它不是最佳 API。它在设计上不符合职责分离原则，将输入、输出和用事件来跟踪的状态混杂在一个对象">
   
     <link rel="alternative" href="/atom.xml" title="大橙子的博客" type="application/atom+xml">
   
@@ -175,7 +175,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>参考文章<br><a href="https://www.w3ctech.com/topic/854" target="_blank" rel="noopener">https://www.w3ctech.com/topic/854</a><br><a href="https://juejin.im/post/59165ec2128fe1005cb6c950" target="_blank" rel="noopener">https://juejin.im/post/59165ec2128fe1005cb6c950</a></p>
-<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>avaScript 通过 XMLHttpRequest(XHR)来执行异步请求，这个方式已经存在了很长一段时间。虽说它很有用，但它不是最佳 API。它在设计上不符合职责分离原则，将输入、输出和用事件来跟踪的状态混杂在一个对象里。而且，基于事件的模型与最近 JavaScript 流行的 Promise 以及基于生成器的异步编程模型不太搭（事件模型在处理异步上有点过时了——译者注）。<br>新的 Fetch API 打算修正上面提到的那些缺陷。 它向 JS 中引入和 HTTP 协议中同样的原语（即 Fetch——译者注）。具体而言，它引入一个实用的函数 fetch()用来简洁捕捉从网络上检索一个资源的意图。<br>Fetch 规范的 API 明确了用户代理获取资源的语义。它结合 ServiceWorkers，尝试达到以下优化：<br>改善离线体验<br>保持可扩展性<br>到写这篇文章的时候，Fetch API 被 Firefox 39（Nightly 版）以及 Chrome 42（开发版）支持。在 github 上，有基于低版本浏览器的兼容实现</p>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>JavaScript 通过 XMLHttpRequest(XHR)来执行异步请求，这个方式已经存在了很长一段时间。虽说它很有用，但它不是最佳 API。它在设计上不符合职责分离原则，将输入、输出和用事件来跟踪的状态混杂在一个对象里。而且，基于事件的模型与最近 JavaScript 流行的 Promise 以及基于生成器的异步编程模型不太搭（事件模型在处理异步上有点过时了——译者注）。<br>新的 Fetch API 打算修正上面提到的那些缺陷。 它向 JS 中引入和 HTTP 协议中同样的原语（即 Fetch——译者注）。具体而言，它引入一个实用的函数 fetch()用来简洁捕捉从网络上检索一个资源的意图。<br>Fetch 规范的 API 明确了用户代理获取资源的语义。它结合 ServiceWorkers，尝试达到以下优化：<br>改善离线体验<br>保持可扩展性<br>到写这篇文章的时候，Fetch API 被 Firefox 39（Nightly 版）以及 Chrome 42（开发版）支持。在 github 上，有基于低版本浏览器的兼容实现</p>
 <h3 id="Fetch-获取数据"><a href="#Fetch-获取数据" class="headerlink" title="Fetch 获取数据"></a>Fetch 获取数据</h3><p>使用 Fetch 获取数据很容易。只需要 Fetch 你想获取资源。</p>
 <p>假设我们想通过 GitHub 获取一个仓库，我们可以像下面这样使用：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">"https://api.github.com/users/chriscoyier/repos"</span>);</span><br><span class="line">复制代码;</span><br></pre></td></tr></table></figure>
